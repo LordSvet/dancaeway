@@ -1,8 +1,10 @@
-package com.example.dancway;
+package com.example.dancway.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.dancway.R;
 
 public class MainActivity extends AppCompatActivity {
 

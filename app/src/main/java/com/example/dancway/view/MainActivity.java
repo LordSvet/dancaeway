@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.dancway.R;
+import com.example.danceawaylayout.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -16,5 +16,5 @@ public class Artist {       //Class that holds Artist's info. Very basic for now
 
     public int getNumberOfTracks(){return listOfTracks.size();}
 
-    public ArrayList<Song> loadArtistTracks(){return listOfTracks;} //Method will be finished in later increment
+    private ArrayList<Song> loadArtistTracks(){return listOfTracks;} //Method will be finished in later increment
 }

@@ -63,7 +63,7 @@ public class SongsList {
 
     }
 
-    public void runConcurrent() {
+    private void runConcurrent() {
         Thread thread = new Thread() {  //Implementing run from Thread to use function concurrently
             @Override
             public void run() {

@@ -33,8 +33,6 @@ public class MusicPlayerController {    //Class uses MediaPlayer as our audio pl
                 }
             });
         }
-
-
     }
 
     public void play() {     //plays song

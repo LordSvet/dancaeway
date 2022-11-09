@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dancway">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,6 +22,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".model.Register"
+            android:exported="false">
+
+        </activity>
+
+        <activity
+            android:name=".model.Login"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".model.PartyGuest"
+            android:exported="false">
+        </activity>
+
+
     </application>
 
 </manifest>

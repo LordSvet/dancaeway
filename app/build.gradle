@@ -33,7 +33,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.0.2')  //FireBase dependencies
     implementation 'com.google.firebase:firebase-auth:21.1.0'                  //Firebase Authentication
     implementation 'com.google.firebase:firebase-storage:20.1.0'               //Firebase Storage
-    implementation 'com.android.volley:volley:1.2.1'                             //Volley (JSON parsing library)
+   // implementation 'com.android.volley:volley:1.2.1'                             //Volley (JSON parsing library)
 
 
     implementation 'androidx.appcompat:appcompat:1.5.1'

@@ -3,25 +3,64 @@ package com.example.dancway.controller;
 import android.app.Activity;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.example.dancway.model.Artist;
+import com.example.dancway.model.Song;
 import com.example.dancway.model.SongsList;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 
 public class SongsListController {
     private SongsList list;
-    private MusicPlayerController player;
     private Activity context;
 
-    public SongsListController(Activity context){
+    public SongsListController(SongsList list, Activity context){
         this.context = context;
-        list = new SongsList();
+        this.list = list;
+        runConcurrent();    //Runs getListOfSongs() on another thread concurrently when object is initialized
     }
 
-    public void playSong() {
-        try {
-            player = new MusicPlayerController(list.getSongAt(1));
-        }catch(IOException e){  //Prints error message to Log in case of IOException
-            Log.i("Error: ", e.getMessage());
-        }
+    public SongsList getSongsList(){return list.getList();}
+
+    public Activity getContext(){return context;}
+
+    public void setContext(Activity newContext){context = newContext;}
+
+    public void setSongsList(SongsList newList){list.setList(newList.getArrayList());}
+
+    public void getListOfSongs() {//Method fills ArrayList with songs from DB
+        DatabaseReference databaseRoot = FirebaseDatabase.getInstance().getReference().child("SongsListRepository");
+        databaseRoot.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+                    Song temp = new Song(String.valueOf(it.child("name").getValue()),     (long)it.child("duration").getValue(),
+                            new Artist(String.valueOf(it.child("artist").getValue())),  String.valueOf(it.child("url").getValue()));
+                    list.addSong(temp);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("Error: ",e.getMessage());
+            }
+        });
+
+    }
+
+    private void runConcurrent() {
+        Thread thread = new Thread() {  //Implementing run from Thread to use function concurrently
+            @Override
+            public void run() {
+                getListOfSongs();
+            }
+        };
+        thread.start();
     }
 }

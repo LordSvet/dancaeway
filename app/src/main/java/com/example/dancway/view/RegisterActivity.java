@@ -1,4 +1,4 @@
-package com.example.dancway.model;
+package com.example.dancway.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,25 +13,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
-import com.example.dancway.view.MainActivity;
+import com.example.dancway.controller.UserController;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Register extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView banner, registerUser;
     private EditText editTextFullName, editTextAge, editTextEmail, editTextPassword;
+    private UserController userController;
 
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
+        userController = new UserController(this);
 
         banner = (TextView) findViewById(R.id.banner);
         banner.setOnClickListener(this);
@@ -49,33 +49,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.banner:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.registerUser:
-                registerUser();
-                break;
-
-        }
-
-    }
-
-    private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String fullName = editTextFullName.getText().toString().trim();
-        String age = editTextAge.getText().toString().trim();
 
         if(fullName.isEmpty()) {
             editTextFullName.setError("Full name is required");
             editTextFullName.requestFocus();
-            return;
-        }
-
-        if(age.isEmpty()) {
-            editTextAge.setError("Age is required");
-            editTextAge.requestFocus();
             return;
         }
 
@@ -89,18 +69,17 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
-                            Toast.makeText(Register.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Register.this, Login.class));
-                        }else{
-                            Toast.makeText(Register.this, "Registration Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        switch(view.getId()) {
+            case R.id.banner:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.registerUser:
+                userController.register(editTextEmail.getText().toString(),editTextPassword.getText().toString(), editTextFullName.getText().toString());
+                break;
+
+        }
 
     }
+
+
 }

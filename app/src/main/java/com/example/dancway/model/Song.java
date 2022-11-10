@@ -7,10 +7,7 @@ public class Song {     //Holds all data thats relevant for the song
     private String url;
 
 
-    public Song(String title, String url){  //Constructor being used for prototype, below constructor is what end version will be closer to
-        this.title = title;
-        this.url = url;
-    }
+
     public Song(String title, long duration, Artist artist, String url){
         this.title = title;
         this.duration = duration;

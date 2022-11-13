@@ -31,9 +31,11 @@ public class UserController {
 
     public Activity getActivityContext(){return context;}
 
-    public void register(String email, String password, String username){registerUser(email, password, username);}
+    public void register(String email, String password, String repeat_password, String username){
+        registerUser(email, password, repeat_password, username);
+    }
 
-    private void registerUser(String email, String password, String username) {
+    private void registerUser(String email, String password, String repeat_password ,String username) {
 
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

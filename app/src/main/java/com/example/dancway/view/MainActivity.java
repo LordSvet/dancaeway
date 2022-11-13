@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide();
+
         welcomeText = (TextView) findViewById(R.id.welcomeText);
         playButton = (Button) findViewById(R.id.playButton);
-        registerButton = (Button) findViewById(R.id.registerButton);
-        loginButton = (Button) findViewById(R.id.loginButton);
 
         songsListController = new SongsListController(new SongsList(), this);
         musicPlayerController = new MusicPlayerController();

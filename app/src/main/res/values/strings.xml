@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DanceAway</string>
+    <string name="password">Password</string>
+
 </resources>

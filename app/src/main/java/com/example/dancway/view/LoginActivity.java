@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+
+
         switch(view.getId()) {
             case R.id.register:
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
@@ -61,4 +63,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-}
+    }
+

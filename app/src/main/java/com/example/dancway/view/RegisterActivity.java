@@ -31,7 +31,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        userController = new UserController(this);
+        // only a singular instance of userController class gets created
+        userController = UserController.getInstance(this);
 
         banner = (TextView) findViewById(R.id.banner);
         banner.setOnClickListener(this);

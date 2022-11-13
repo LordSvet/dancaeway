@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView register_tittle, registerUser;
+    private TextView register_tittle, registerUser, login_button;
     private EditText editTextFullName, editTextEmail, editTextPassword, editTextRepeatPassword;
     private UserController userController;
 
@@ -45,6 +45,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editTextRepeatPassword = (EditText) findViewById(R.id.repeat_password);
 
 
+        // making Log in clickable and moving from register screen to login screen
+        login_button = (TextView) findViewById(R.id.login_button);
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent ( RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -65,12 +76,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             editTextEmail.requestFocus();
             return;
 
-        } else if (password.isEmpty()) {
+        } if (password.isEmpty()) {
             editTextPassword.setError("Password is required");
             editTextPassword.requestFocus();
             return;
         }
-
+        else if (repeat_password.isEmpty()) {
+            editTextRepeatPassword.setError("Your password doesn't match ");
+            editTextRepeatPassword.requestFocus();
+            return;
+        }
             switch (view.getId()) {
                 case R.id.register_banner:
                     startActivity(new Intent(this, MainActivity.class));
@@ -80,8 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     break;
 
             }
-
-        }
-
-
     }
+}
+
+

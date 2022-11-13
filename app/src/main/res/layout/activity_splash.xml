@@ -9,7 +9,7 @@
     tools:context=".view.SplashActivity">
 
   <ImageView
-      android:id="@+id/imageView"
+      android:id="@+id/logo_rotation"
       android:layout_width="180dp"
       android:layout_height="180dp"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.370"
-      app:srcCompat="@drawable/logo_icon" />
+      app:srcCompat="@drawable/logo_rotation" />
 
   <TextView
       android:id="@+id/textView"

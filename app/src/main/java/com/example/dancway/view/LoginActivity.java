@@ -18,21 +18,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editTextEmail, editTextPassword;
     private Button signIn;
-    private TextView register;
+    private TextView signup;
     private UserController userController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        // making Register text clickable and moving from login screen back to register activity
+        signup = (TextView) findViewById(R.id.signup);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent ( LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
         userController = new UserController(this);
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-        register = (TextView) findViewById(R.id.register);
-        register.setOnClickListener(this);
+//        signup = (TextView) findViewById(R.id.signup);
+//        signup.setOnClickListener(this);
         signIn = (Button) findViewById(R.id.signIn);
         signIn.setOnClickListener(this);
-
     }
 
     @Override
@@ -52,10 +63,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-
-
         switch(view.getId()) {
-            case R.id.register:
+            case R.id.signup:
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                 break;
             case R.id.signIn:

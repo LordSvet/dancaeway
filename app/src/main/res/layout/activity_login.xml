@@ -12,7 +12,7 @@
         android:id="@+id/login_banner"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="248dp"
         android:text="Log in"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -99,14 +99,14 @@
 
     <ImageView
         android:id="@+id/login_screen_logo"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060"
+        app:layout_constraintVertical_bias="0.110"
         app:srcCompat="@drawable/logo_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

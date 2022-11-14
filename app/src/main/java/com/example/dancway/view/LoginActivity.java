@@ -26,6 +26,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // When clicking Log in button, moving from login screen to choosing the modes party/solo
+        signIn = (TextView) findViewById(R.id.signIn);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent ( LoginActivity.this, Modes.class);
+                startActivity(intent);
+            }
+        });
+
 
         // making Register text clickable and moving from login screen back to register activity
         signup = (TextView) findViewById(R.id.signup);
@@ -40,8 +50,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userController = new UserController(this);
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-//        signup = (TextView) findViewById(R.id.signup);
-//        signup.setOnClickListener(this);
         signIn = (Button) findViewById(R.id.signIn);
         signIn.setOnClickListener(this);
     }

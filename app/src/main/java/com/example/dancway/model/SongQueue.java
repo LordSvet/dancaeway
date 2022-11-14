@@ -1,26 +1,42 @@
 package com.example.dancway.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class SongQueue {
-    List<Song> Songs = new ArrayList<>();
 
-    public Song getSong(String title) {
-        for (Song song : Songs) {
-            if (song.getTitle().equals(title)) {
-                return song;
+    private PriorityQueue<Song> queue;
+    private int initialCapacity;
+
+    public SongQueue(int initialCapacity) {
+        this.initialCapacity = initialCapacity;
+        queue = new PriorityQueue<>(initialCapacity, new Comparator<Song>() {
+            @Override
+            public int compare(Song song1, Song song2) {
+                if (song1.getNrOfLikes() < song2.getNrOfLikes()) {
+                    return 1;
+                } else if (song1.getNrOfLikes() > song2.getNrOfLikes()) {
+                    return -1;
+                }
+                return 0;
             }
-        }
-        return null;
+        });
     }
 
     public boolean addSong(Song song) {
-        return Songs.add(song);
+        return queue.offer(song);
     }
 
-    public void changeOrder(Song song, int newIndex) {
-        Songs.remove(song);
-        Songs.add(newIndex, song);
+    public void clear() {
+        queue.clear();
     }
+
+    public PriorityQueue<Song> getQueue() {
+        return queue;
+    }
+
+    public void setQueue(PriorityQueue<Song> queue) {
+        this.queue = queue;
+    }
+
 }

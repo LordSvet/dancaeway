@@ -24,10 +24,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // only to verify if the login session is already saved or not
+        if (UserController.getInstance(this).autologin())
+        {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        }
+
         setContentView(R.layout.activity_login);
 
+        userController = UserController.getInstance(this);
 
-        // making Register text clickable and moving from login screen back to register activity
+        editTextEmail = (EditText) findViewById(R.id.email);
+        editTextPassword = (EditText) findViewById(R.id.password);
+// making Register text clickable and moving from login screen back to register activity
         signup = (TextView) findViewById(R.id.signup);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,11 +47,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        userController = new UserController(this);
-        editTextEmail = (EditText) findViewById(R.id.email);
-        editTextPassword = (EditText) findViewById(R.id.password);
-//        signup = (TextView) findViewById(R.id.signup);
-//        signup.setOnClickListener(this);
         signIn = (Button) findViewById(R.id.signIn);
         signIn.setOnClickListener(this);
     }
@@ -69,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.signIn:
                 userController.login(editTextEmail.getText().toString(),editTextPassword.getText().toString());
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 break;
         }
     }

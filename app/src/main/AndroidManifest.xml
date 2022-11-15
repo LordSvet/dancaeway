@@ -13,7 +13,13 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.DanceawayLayout">
-
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".view.SplashActivity"
             android:exported="true">
@@ -23,30 +29,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.MainActivity"
-            android:exported="true">
-
-        </activity>
-
+            android:exported="true"></activity>
         <activity
             android:name=".view.RegisterActivity"
-            android:exported="false">
-
-        </activity>
-
+            android:exported="false"></activity>
         <activity
             android:name=".view.LoginActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false"></activity>
         <activity
             android:name=".model.PartyGuest"
-            android:exported="false">
-        </activity>
-
-
+            android:exported="false"></activity>
+        <activity
+            android:name=".view.ChangePasswordActivity"
+            android:exported="false"></activity>
     </application>
 
 </manifest>

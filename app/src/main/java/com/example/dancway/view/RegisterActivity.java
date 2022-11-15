@@ -2,6 +2,7 @@ package com.example.dancway.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,6 +78,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             editTextEmail.requestFocus();
             return;
 
+        } if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Please provide valid email!");
+            editTextEmail.requestFocus();
+            return;
         } if (password.isEmpty()) {
             editTextPassword.setError("Password is required");
             editTextPassword.requestFocus();
@@ -85,6 +90,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         else if (repeat_password.isEmpty()) {
             editTextRepeatPassword.setError("Your password doesn't match ");
             editTextRepeatPassword.requestFocus();
+            return;
+        }
+
+        if(password.length() < 6) {
+            editTextPassword.setError("Min password length should be 6 characters!");
+            editTextPassword.requestFocus();
             return;
         }
             switch (view.getId()) {

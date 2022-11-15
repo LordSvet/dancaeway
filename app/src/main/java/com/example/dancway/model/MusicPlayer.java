@@ -66,7 +66,11 @@ public class MusicPlayer {
     public void playSong(Song song){    //Plays song thats passed as argument
         try{
             if(mediaPlayer.isPlaying()) reInitialize();    //If mediaPlayer is currently playing gets sent back to initialized state again so it can start prepare for new song
-            mediaPlayer.setDataSource(song.getUrl());
+            try {   //When spamming the play button it might give IllegalStateException if it loads too slow so this fixes it
+                mediaPlayer.setDataSource(song.getUrl());
+            } catch (IllegalStateException e){
+                return;
+            }
             currentSong = song;
             preparePlayerConc();
         } catch (IOException e) {

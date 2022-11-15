@@ -5,6 +5,7 @@ public class Song {     //Holds all data thats relevant for the song
     private long duration;
     private Artist artist;
     private String url;
+    private int nrOfLikes;
 
 
 
@@ -30,5 +31,13 @@ public class Song {     //Holds all data thats relevant for the song
     public void setDuration(long newDuration){duration = newDuration;}
 
     public long getDuration(){return duration;}
+
+    public int getNrOfLikes() {
+        return nrOfLikes;
+    }
+
+    public void setNrOfLikes(int nrOfLikes) {
+        this.nrOfLikes = nrOfLikes;
+    }
 
 }

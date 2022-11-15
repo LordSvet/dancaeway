@@ -17,6 +17,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     TextView welcomeText;
+    TextView login_button;
     Button playButton;
     Button registerButton;
     Button loginButton;
@@ -28,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide();
+
         welcomeText = (TextView) findViewById(R.id.welcomeText);
+        login_button = (TextView) findViewById(R.id.login_button);
         playButton = (Button) findViewById(R.id.playButton);
-        registerButton = (Button) findViewById(R.id.registerButton);
-        loginButton = (Button) findViewById(R.id.loginButton);
 
         songsListController = new SongsListController(new SongsList(), this);
         musicPlayerController = new MusicPlayerController();
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent ( MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

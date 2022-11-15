@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    z
-
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"

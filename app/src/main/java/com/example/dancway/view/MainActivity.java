@@ -1,26 +1,31 @@
 package com.example.dancway.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.dancway.R;
 import com.example.dancway.controller.MusicPlayerController;
+import com.example.dancway.controller.RecyclerViewInterface;
+import com.example.dancway.controller.SongsListAdapter;
 import com.example.dancway.controller.SongsListController;
 import com.example.dancway.model.SongsList;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
-    TextView welcomeText;
-    Button playButton;
-    Button registerButton;
-    Button loginButton;
+public class MainActivity extends AppCompatActivity implements RecyclerViewInterface {
+    RecyclerView songsListView;
     SongsListController songsListController;
+    SongsListAdapter listAdapter;
     MusicPlayerController musicPlayerController;
 
     @Override
@@ -32,40 +37,28 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        welcomeText = (TextView) findViewById(R.id.welcomeText);
-        playButton = (Button) findViewById(R.id.playButton);
-        registerButton = findViewById(R.id.registerButton);
-        loginButton = findViewById(R.id.loginButton);
-
         songsListController = new SongsListController(new SongsList(), this);
         musicPlayerController = new MusicPlayerController();
 
-        playButton.setOnClickListener(new View.OnClickListener() {
+        Handler handler = new Handler();        //Songs are loaded concurrently so adapter is empty when set so I put a delay of 2 seconds
+        handler.postDelayed(new Runnable() {    //This will be changed with later implementations
             @Override
-            public void onClick(View v) {
-                int r = new Random().nextInt(20);
-                musicPlayerController.playSong(songsListController.getSongsList().getSongAt(r));
-                welcomeText.setText(musicPlayerController.getSong().getTitle() + " is now playing");
+            public void run() {
+                setListAdapter();
             }
-        });
+        }, 2000);
 
+    }
+    public void setListAdapter(){
+        listAdapter = new SongsListAdapter(songsListController.getSongsList(),this);
+        songsListView = findViewById(R.id.main_list_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        songsListView.setLayoutManager(layoutManager);
+        songsListView.setAdapter(listAdapter);
+    }
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
+    @Override
+    public void onItemClicked(int position) {
+        musicPlayerController.playSong(songsListController.getSongsList().getSongAt(position));
     }
 }

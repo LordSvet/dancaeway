@@ -49,8 +49,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
     public void resetPassword() {

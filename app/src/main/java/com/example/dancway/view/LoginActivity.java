@@ -6,7 +6,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -15,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dancway.R;
 import com.example.dancway.controller.UserController;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,7 +21,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button signIn;
     private TextView signup, forgotPassword;
     private UserController userController;
-    private ImageView signGoogle;
+    private Button signGoogle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        signGoogle = (ImageView) findViewById(R.id.googleSign);
+        signGoogle = (Button) findViewById(R.id.login_with_google);
     }
 
     private void createRequest() {

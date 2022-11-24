@@ -20,8 +20,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
     private TextView register_tittle, registerUser, login_button;
     private EditText editTextFullName, editTextEmail, editTextPassword, editTextRepeatPassword;
     private UserController userController;
@@ -87,17 +91,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             editTextPassword.requestFocus();
             return;
         }
+        else if (!PASSWORD_PATTERN.matcher(password).matches()) {
+            editTextPassword.setError("Use 8 chars, at least one uppercase, number and special chars");
+            editTextPassword.requestFocus();
+            return;
+        }
         else if (repeat_password.isEmpty()) {
             editTextRepeatPassword.setError("Your password doesn't match ");
             editTextRepeatPassword.requestFocus();
             return;
         }
 
-        if(password.length() < 6) {
-            editTextPassword.setError("Min password length should be 6 characters!");
-            editTextPassword.requestFocus();
-            return;
-        }
             switch (view.getId()) {
                 case R.id.register_banner:
                     startActivity(new Intent(this, MainActivity.class));

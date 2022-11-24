@@ -4,6 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/User/.AndroidStudio3.60/Danceawaylayout/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/drawable/background_rectangle.xml" value="0.363" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_change_password.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_splash.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/list_view_item.xml" value="0.5" />
       </map>
     </option>
   </component>

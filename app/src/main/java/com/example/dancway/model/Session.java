@@ -1,6 +1,6 @@
 package com.example.dancway.model;
 
-public class Session {  //Most of session will be implemented in later increments
+public class    Session {  //Most of session will be implemented in later increments
     private String id;
     private User user;
 
@@ -19,5 +19,6 @@ public class Session {  //Most of session will be implemented in later increment
     public void setUser1(User user) {
         this.user = user;
     }
+
 
 }

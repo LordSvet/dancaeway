@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 setListAdapter();
             }
         }, 2000);
-
     }
+
     public void setListAdapter(){
         listAdapter = new SongsListAdapter(songsListController.getSongsList(),this);
         songsListView = findViewById(R.id.main_list_view);

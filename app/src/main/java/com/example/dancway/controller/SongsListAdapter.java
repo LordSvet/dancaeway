@@ -20,6 +20,7 @@ import com.example.dancway.model.SongsList;
 
 import java.util.List;
 
+//Custom adapter for filling every view in a RecyclerView
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
 
     private SongsList listOfSongs;
@@ -30,12 +31,13 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
+    //Inner class ViewHolder represents each view which holds a song title for now in the TextView songTitle
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView songTitle;
         public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             songTitle = itemView.findViewById(R.id.songTitle_In_ListView);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {        //Overriding onClick from our recyclerViewInterface interface
                 @Override
                 public void onClick(View view) {
                     if(recyclerViewInterface != null) {
@@ -51,14 +53,14 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
 
 
     @Override
-    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {     //Inflates the view and creates new ViewHolder
         View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_view_item, parent, false);
         return new ViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(SongsListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(SongsListAdapter.ViewHolder holder, int position) {    //Setting each view's title in ViewHolder
         Song myData = listOfSongs.getSongAt(position);
         holder.songTitle.setText(myData.getTitle() + " - " + myData.getArtist().getName());
     }
@@ -66,5 +68,5 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     @Override
     public int getItemCount() {
         return listOfSongs.getSize();
-    }
+    }   //Returns size of list
 }

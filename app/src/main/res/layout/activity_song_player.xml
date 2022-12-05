@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_purple">
     <ImageView
-        android:id="@+id/login_screen_logo_partMode"
+        android:id="@+id/logoIcon"
         android:layout_width="70dp"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +17,7 @@
         app:srcCompat="@drawable/logo_icon" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profileButton"
         android:layout_width="29dp"
         android:layout_height="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,7 +29,7 @@
         app:srcCompat="@drawable/person_account_icon" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/searchButton"
         android:layout_width="29dp"
         android:layout_height="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,10 +41,10 @@
         app:srcCompat="@drawable/search_icon" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/comingNext"
         android:layout_width="219dp"
         android:layout_height="26dp"
-        android:text="Comming Next..."
+        android:text="Coming Next ..."
         android:textColor="#86DD89"
         android:textSize="3mm"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +59,8 @@
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:layout_marginTop="52dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="236dp"
         android:background="#86DD89"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -69,17 +69,29 @@
         app:layout_constraintTop_toTopOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.003" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/back_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/back_button"
+    <TextView
+        android:id="@+id/artistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Duft Punk"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.269"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_screen_logo_partMode"
-        app:layout_constraintVertical_bias="0.098" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.248" />
+
+    <TextView
+        android:id="@+id/songTittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Harder Better Faster Stronger"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.326" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dancway.R;
 
 
+
+
 public class ModeSelectionActivity extends AppCompatActivity {
 
     ImageView partyMode, soloMode;
+    TextView partyModeSelection, soloModeSelection;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,8 +40,21 @@ public class ModeSelectionActivity extends AppCompatActivity {
             }
         });
 
+        partyModeSelection = (TextView) findViewById(R.id.partyMode);
+        partyModeSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ModeSelectionActivity.this, MainActivity.class);
+            }
+        });
+        soloModeSelection = (TextView) findViewById(R.id.soloMode);
+        soloModeSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ModeSelectionActivity.this, MainActivity.class);
+            }
+        });
+
     }
-
-
 
 }

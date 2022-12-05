@@ -49,7 +49,7 @@
         android:layout_marginRight="50dp"
         android:background="@drawable/inputfield_borders"
         android:ems="10"
-        android:hint="@string/password1"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="12dp"
         android:textSize="15sp"

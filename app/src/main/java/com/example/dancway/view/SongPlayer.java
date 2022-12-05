@@ -18,13 +18,6 @@ public class SongPlayer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_player);
-        ImageButton back = findViewById(R.id.back_button);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

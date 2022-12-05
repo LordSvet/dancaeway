@@ -5,9 +5,10 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="input_grey">#9F9F9F</color>
-    <color name="background_purple">#645278</color>
-    <color name="general" >#1E252B</color>
+    <color name="black">#FF000000</color>                        <!--pure black -->
+    <color name="white">#FFFFFFFF</color>                        <!--pure white, used on general text -->
+    <color name="input_grey">#9F9F9F</color>                     <!--used for input fields like email, password -->
+    <color name="background_purple">#645278</color>              <!--app background purple -->
+    <color name="general">#1E252B</color>
+    <color name= "secondary_pink">#FFBEF5</color>              <!-- used for song title and artist name -->
 </resources>

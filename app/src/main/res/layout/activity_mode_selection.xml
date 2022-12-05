@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_purple"
-    >
+    android:background="@color/background_purple" >
 
     <ImageView
         android:id="@+id/imageView"
@@ -20,7 +19,7 @@
         app:srcCompat="@drawable/logo_icon" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/welcomeUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -36,7 +35,7 @@
         app:layout_constraintVertical_bias="0.057" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/pleaseChoose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please choose"
@@ -46,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeUsername"
         app:layout_constraintVertical_bias="0.074" />
 
     <ImageView
@@ -57,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/pleaseChoose"
         app:layout_constraintVertical_bias="0.279"
         app:srcCompat="@drawable/party_mode" />
 
@@ -67,11 +66,11 @@
         android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintHorizontal_bias="0.403"
         app:layout_constraintStart_toEndOf="@+id/party_illustration"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.277"
-        app:srcCompat="@drawable/solo_mode" />
+        app:layout_constraintTop_toBottomOf="@+id/pleaseChoose"
+        app:layout_constraintVertical_bias="0.242"
+        app:srcCompat="@drawable/solo_illustration" />
 
     <TextView
         android:id="@+id/partyMode"
@@ -83,10 +82,10 @@
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintHorizontal_bias="0.151"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/party_illustration"
-        app:layout_constraintVertical_bias="0.118" />
+        app:layout_constraintVertical_bias="0.083" />
 
     <TextView
         android:id="@+id/soloMode"
@@ -97,9 +96,9 @@
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.867"
+        app:layout_constraintHorizontal_bias="0.787"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/solo_illustration"
-        app:layout_constraintVertical_bias="0.118" />
+        app:layout_constraintVertical_bias="0.064" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

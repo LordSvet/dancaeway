@@ -1,16 +1,11 @@
 package com.example.dancway.model;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import com.example.dancway.controller.SongsListController;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -48,23 +43,17 @@ public class PartyMode extends Session {    //Will implement online session late
         Map<String, String> songs = new HashMap<>();
         for(int i = 0; i< songList.size();i++){
             songs.put(songList.get(i).getTitle(), songList.get(i).getUrl());
-
         }
         sessionBranch.put("SongsList",songs);
 
         Map<String, String> queue = new HashMap<>();
-
         Iterator<Song> iterate = songQueue.getQueue().iterator();
-
         while(iterate.hasNext()){
             queue.put(songQueue.getQueue().iterator().next().getTitle(),"");
         }
-
         sessionBranch.put("SongsQueue",queue);
 
-
         databaseRoot.child(codeGenerator).setValue(sessionBranch);
-
     }
 
     public String getCodeGenerator() {

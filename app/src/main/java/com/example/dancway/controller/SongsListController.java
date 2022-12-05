@@ -14,27 +14,31 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.IOException;
-
 public class SongsListController {
-    private SongsList list;
+    static private SongsList songsList;
     private Activity context;
 
-    public SongsListController(SongsList list, Activity context){
+    public SongsListController(Activity context){
         this.context = context;
-        this.list = list;
-        runConcurrent();    //Runs getListOfSongs() on another thread concurrently when object is initialized
     }
 
-    public SongsList getSongsList(){return list.getList();}
+    public static SongsList getSongsList() {
+        return songsList.getList();
+    }
 
     public Activity getContext(){return context;}
 
     public void setContext(Activity newContext){context = newContext;}
 
-    public void setSongsList(SongsList newList){list.setList(newList.getArrayList());}
+    public void setSongsList(SongsList newList) {
+        songsList.setList(newList.getArrayList());
+    }
 
-    public void getListOfSongs() {//Method fills ArrayList with songs from DB
+    /**
+     * Populate songsList with songs from DB. This should be used before operating on songsList.
+     */
+    public static void populateSongs() {
+        songsList = new SongsList();
         DatabaseReference databaseRoot = FirebaseDatabase.getInstance().getReference().child("SongsListRepository");
         databaseRoot.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
@@ -42,7 +46,7 @@ public class SongsListController {
                 for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
                     Song temp = new Song(String.valueOf(it.child("name").getValue()),     (long)it.child("duration").getValue(),
                             new Artist(String.valueOf(it.child("artist").getValue())),  String.valueOf(it.child("url").getValue()));
-                    list.addSong(temp);
+                    songsList.addSong(temp);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
@@ -51,16 +55,5 @@ public class SongsListController {
                 Log.i("Error: ",e.getMessage());
             }
         });
-
-    }
-
-    private void runConcurrent() {
-        Thread thread = new Thread() {  //Implementing run from Thread to use function concurrently
-            @Override
-            public void run() {
-                getListOfSongs();
-            }
-        };
-        thread.start();
     }
 }

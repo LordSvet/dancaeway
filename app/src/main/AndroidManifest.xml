@@ -14,6 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DanceawayLayout">
         <activity
+            android:name=".view.SongPlayer"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".view.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -24,19 +31,19 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".view.RegisterActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".view.LoginActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".model.PartyGuest"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".view.ChangePasswordActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

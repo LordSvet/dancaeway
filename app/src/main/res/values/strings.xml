@@ -6,7 +6,7 @@
     <string name="email">Email</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="sign_up_here">Sign up here!</string>
-    <string name="you_don_t_have_an_account_yet">You don\'t have an account yet?</string>
+    <string name="no_account_yet">No account yet?</string>
     <string name="login">Login</string>
     <string name="password1">Password</string>
 

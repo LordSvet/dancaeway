@@ -8,7 +8,6 @@
     android:background="@color/background_purple">
 
 
-
     <TextView
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
@@ -18,10 +17,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.723"
+        app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repeat_password"
-        app:layout_constraintVertical_bias="0.544" />
+        app:layout_constraintVertical_bias="0.772" />
 
     <TextView
         android:id="@+id/register_banner"
@@ -144,7 +143,7 @@
         app:layout_constraintHorizontal_bias="0.38"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repeat_password"
-        app:layout_constraintVertical_bias="0.547" />
+        app:layout_constraintVertical_bias="0.772" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

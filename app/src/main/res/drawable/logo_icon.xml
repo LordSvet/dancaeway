@@ -3,7 +3,7 @@
     android:height="170dp"
     android:viewportWidth="170"
     android:viewportHeight="170"
-    android:name="logo_vector">
+    android:name="logo_vector" >
   <group>
     <clip-path
         android:pathData="M0,0h170v170h-170z"/>

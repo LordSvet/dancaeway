@@ -29,8 +29,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Google Sign thingie
         createRequest();
-
-
         // only to verify if the login session is already saved or not
         if (UserController.getInstance(this).autologin())
         {
@@ -45,6 +43,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextPassword = (EditText) findViewById(R.id.password);
 // making Register text clickable and moving from login screen back to register activity
         signup = (TextView) findViewById(R.id.signup);
+
+        /**
+         * When sign up button is clicked, RegisterActivity is called
+         */
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +59,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signIn.setOnClickListener(this);
 
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+
+        /**
+         * When forgot password is clicked, goes to ChangePassword Activity
+         */
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +82,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * @param view
+     *  Implements the Login logic.
+     *  Checks if the field, like email and password are empty.
+     *  Checks if password given is less than 8 characters, which are the min bassed on register password pattern.
+     * @returns to the method if the requirements are not met.
+     */
     @Override
     public void onClick(View view) {    //TODO: Check if needed
         String email = editTextEmail.getText().toString().trim();
@@ -99,8 +112,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        if(password.length() < 6) {
-            editTextPassword.setError("Min password length is 6 characters!");
+        if(password.length() < 8) {
+            editTextPassword.setError("Min password length is 8 characters!");
             editTextPassword.requestFocus();
             return;
         }

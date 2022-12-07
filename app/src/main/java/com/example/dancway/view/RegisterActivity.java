@@ -24,6 +24,10 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * Password pattern based on REGEX. Accepts min 8 characters,
+     * at least one number, one uppercase, and one special character,
+     */
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
     private TextView register_tittle, registerUser, login_button;
@@ -50,9 +54,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editTextPassword = (EditText) findViewById(R.id.password);
         editTextRepeatPassword = (EditText) findViewById(R.id.repeat_password);
 
-
         // making Log in clickable and moving from register screen to login screen
         login_button = (TextView) findViewById(R.id.login_button);
+
+        /**
+         * When Login button is clicked, opens LoginActivity
+         */
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,10 +67,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
             }
         });
-
-
     }
 
+    /**
+     * @param view
+     * Implements the Register logic.
+     * Checks if fields like, Name, Email, and Password are empty.
+     * Checks for email and password if they match the patterns specified.
+     * Password pattern: 8 minimum characters, at least one uppercase, one number, and one special character
+     * @return to the method, if they're empty, or they don't match the patterns
+     */
     @Override
     public void onClick(View view) {
         String email = editTextEmail.getText().toString().trim();

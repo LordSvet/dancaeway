@@ -10,24 +10,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
+import com.example.dancway.controller.SongsListAdapter;
+import com.example.dancway.controller.SongsListController;
+
 
 
 
 
 public class ModeSelectionActivity extends AppCompatActivity {
 
-    ImageView partyMode, soloMode;
-    TextView partyModeSelection, soloModeSelection;
+   ImageView partyMode, soloMode;
+   TextView partyModeSelection, soloModeSelection;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_mode_selection);
+
 
         partyMode = (ImageView) findViewById(R.id.party_illustration);
         partyMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent (ModeSelectionActivity.this, MainActivity.class);
+                Intent intent = new Intent (ModeSelectionActivity.this, JoinPartyActivity.class);
                 startActivity(intent);
             }
         });
@@ -37,6 +42,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ModeSelectionActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -44,7 +50,8 @@ public class ModeSelectionActivity extends AppCompatActivity {
         partyModeSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ModeSelectionActivity.this, MainActivity.class);
+                Intent intent = new Intent(ModeSelectionActivity.this, JoinPartyActivity.class);
+                startActivity(intent);
             }
         });
         soloModeSelection = (TextView) findViewById(R.id.soloMode);
@@ -52,6 +59,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ModeSelectionActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 

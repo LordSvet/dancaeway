@@ -44,6 +44,16 @@
         <activity
             android:name=".view.ChangePasswordActivity"
             android:exported="false" />
+        <activity
+            android:name=".view.ModeSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.JoinPartyActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

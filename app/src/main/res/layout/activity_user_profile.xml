@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.066"
-        app:srcCompat="@drawable/go_back_icon" />
+        app:srcCompat="@drawable/left_arrow" />
 
     <ImageView
         android:id="@+id/moreButton"

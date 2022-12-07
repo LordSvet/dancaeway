@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
         // Google Sign thingie
         createRequest();
@@ -34,10 +35,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // only to verify if the login session is already saved or not
         if (UserController.getInstance(this).autologin())
         {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, ModeSelectionActivity.class));
         }
 
-        setContentView(R.layout.activity_login);
 
         userController = UserController.getInstance(this);
 

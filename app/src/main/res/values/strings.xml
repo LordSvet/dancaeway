@@ -11,11 +11,15 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="log_in" />
     <string name="email">Email</string>
-    <string name="login">Login</string>
+    <string name="loginButton">Login</string>
     <string name="no_account_yet">No account yet? </string>
-    <string name="sign_up_here"> Signup here!</string>
+    <string name="sign_up_here"> Sign up here!</string>
     <string name="forgot_your_password">Forgot your password?</string>
+    <string name="login">Login</string>
+    <string name="home">Home</string>
+    <string name="your_playlists">Your playlists</string>
+    <string name="search">Search</string>
+
 
 </resources>

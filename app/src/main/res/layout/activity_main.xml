@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity"
     android:id="@+id/main_list_view"
-    android:background="@color/background_purple"
-    >
+    android:background="@color/background_purple" >
+
 
 </androidx.recyclerview.widget.RecyclerView>

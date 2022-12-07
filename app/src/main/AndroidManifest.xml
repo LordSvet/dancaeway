@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DanceawayLayout">
         <activity
-            android:name=".view.SongPlayer"
+            android:name=".view.SongPlayerActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

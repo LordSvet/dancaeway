@@ -7,15 +7,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
 import com.example.dancway.controller.UserController;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private FirebaseAuth auth;
+    GoogleSignInOptions googleSignInOptions;
+    GoogleSignInClient googleSignInClient;
 
     private EditText editTextEmail, editTextPassword;
     private Button signIn;
@@ -27,8 +38,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Google Sign thingie
-        createRequest();
+        /**
+         * Google sign in
+         */
+        auth = FirebaseAuth.getInstance();
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+
         // only to verify if the login session is already saved or not
         if (UserController.getInstance(this).autologin())
         {
@@ -71,14 +90,58 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+
+        /**
+         * Google Sign in logic
+         * When button is clicked, call;s the signInGoogle method
+         */
         signGoogle = (Button) findViewById(R.id.login_with_google);
+        signGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInGoogle();
+            }
+        });
     }
 
-    private void createRequest() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+    /**
+     * This method, opens the google Sign in page
+     */
+    private void signInGoogle() {
+
+        Intent intent = googleSignInClient.getSignInIntent();
+        startActivityForResult(intent, 100);
+    }
+
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     * If the task of Google Sign in is succesfful, it jumps to the main activity,
+     * otherwise it shows the error.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try{
+                task.getResult(ApiException.class);
+                MainAct();
+            } catch (ApiException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    /**
+     * After google sign in, returns to the main Screen
+     */
+    private void MainAct() {
+        finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
 
     }
 

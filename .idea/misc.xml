@@ -5,11 +5,19 @@
       <map>
         <entry key="..\:/Users/User/.AndroidStudio3.60/Danceawaylayout/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/drawable/background_rectangle.xml" value="0.363" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/drawable/play_button.xml" value="0.322" />
         <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_change_password.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_home_screen.xml" value="0.33" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_join_party.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_login.xml" value="0.67" />
         <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_mode_selection.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_song_player.xml" value="0.33" />
         <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_splash.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/activity_user_profile.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/layout/list_view_item.xml" value="0.5" />
+        <entry key="..\:/Users/sveto/AndroidStudioProjects/dancway/app/src/main/res/menu/menu_home_screen.xml" value="0.22135416666666666" />
       </map>
     </option>
   </component>

@@ -2,8 +2,13 @@ package com.example.dancway.model;
 
 import static org.junit.Assert.*;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Objects;
 
 public class SessionTest {
 
@@ -13,7 +18,7 @@ public class SessionTest {
     // We need to use before so the test class can use the Session class
     @Before
     public void createExample(){
-        exampleSession = new Session();
+        exampleSession = new Session("sample_id",User.getCurrentUser());
     }
 
     // Test of getID

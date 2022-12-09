@@ -6,11 +6,30 @@ public class User {
 
     private String username;
     private FirebaseUser firebaseUser;
+    private PartyRole partyRole;
+    private static User currentUser;
 
-    public User(FirebaseUser firebaseUser){
+    private User(FirebaseUser firebaseUser, String username){
         this.firebaseUser = firebaseUser;
-        username = firebaseUser.getDisplayName();
+        this.username = username;
     }
+
+    public static synchronized User getCurrentUser(){
+        return currentUser;
+    }
+
+    public static synchronized User getCurrentUser(FirebaseUser user, String username){
+        if(currentUser == null){
+            currentUser = new User(user, username);
+        }
+        return currentUser;
+    }
+
+    public void setPartyRole(PartyRole role){
+        partyRole = role;
+    }
+
+    public PartyRole getPartyRole(){ return partyRole;}
 
     public String getUsername() {
         return username;

@@ -9,11 +9,19 @@ import com.example.dancway.model.Song;
 
 import java.io.IOException;
 
-public class MusicPlayerController {    //Class uses MediaPlayer as our audio player
+public class MusicPlayerControllerSingleton {    //Class uses MediaPlayer as our audio player
     private MusicPlayer musicPlayer;
+    private static MusicPlayerControllerSingleton instance;
 
-    public MusicPlayerController() {    //Passing song to be played when creating player
+    private MusicPlayerControllerSingleton() {    //Passing song to be played when creating player
         musicPlayer = new MusicPlayer();
+    }
+
+    public static synchronized MusicPlayerControllerSingleton getInstance(){
+        if(instance == null){
+            instance = new MusicPlayerControllerSingleton();
+        }
+        return instance;
     }
 
     public Song getSong(){
@@ -27,6 +35,7 @@ public class MusicPlayerController {    //Class uses MediaPlayer as our audio pl
     public void changeSong(Song newSong){
         musicPlayer.changeSong(newSong);
     }
+
     public void stopPlayer(){
         musicPlayer.stopPlayer();
     }
@@ -35,9 +44,21 @@ public class MusicPlayerController {    //Class uses MediaPlayer as our audio pl
         musicPlayer.pause();
     }
 
+    public void unPausePlayer(){
+        musicPlayer.unpausePlayer();
+    }
+
     public void reInitializePlayer(){
         musicPlayer.reInitialize();
     }
+
+    public MediaPlayer getMusicPlayer(){return musicPlayer.getPlayer();}
+
+    public void seekTo(int progress){
+        musicPlayer.changePosition(progress);
+    }
+
+
 
 
 }

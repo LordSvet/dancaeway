@@ -14,6 +14,13 @@ public class Song {     //Holds all data thats relevant for the song
         this.duration = duration;
         this.artist = artist;
         this.url = url;
+        this.nrOfLikes = 0; //default value
+    }
+
+    public Song(String title, String url){
+        this.title = title;
+        this.url = url;
+        nrOfLikes = 0;
     }
 
     public Artist getArtist(){return artist;}

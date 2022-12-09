@@ -19,6 +19,42 @@
         app:srcCompat="@drawable/logo_icon" />
 
     <ImageView
+        android:id="@+id/previousSong"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.052"
+        app:srcCompat="@drawable/previous_song_button" />
+
+    <ImageView
+        android:id="@+id/pausePlay"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.052"
+        app:srcCompat="@drawable/pause_button" />
+
+    <ImageView
+        android:id="@+id/nextSong"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.052"
+        app:srcCompat="@drawable/next_song_button" />
+
+    <ImageView
         android:id="@+id/profileButton"
         android:layout_width="29dp"
         android:layout_height="26dp"
@@ -40,10 +76,10 @@
         android:textSize="3mm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.631" />
+        app:layout_constraintVertical_bias="0.721" />
 
     <View
         android:id="@+id/divider"
@@ -54,15 +90,14 @@
         android:paddingRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7" />
+        app:layout_constraintVertical_bias="0.749" />
 
     <TextView
         android:id="@+id/artistName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="368dp"
+        android:layout_height="82dp"
         android:paddingLeft="30dp"
         android:text="Test"
         android:textColor="@color/secondary_pink"
@@ -72,16 +107,20 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.188" />
+        app:layout_constraintVertical_bias="0.172"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        />
 
     <TextView
         android:id="@+id/songTittle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="This is an example"
         android:textColor="@color/secondary_pink"
         android:textSize="50sp"
-        android:paddingLeft="30dp"
+        android:paddingStart="30dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +128,9 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.326" />
+        app:layout_constraintVertical_bias="0.326"
+        android:gravity="start"
+        />
 
     <ImageView
         android:id="@+id/right_arrow"
@@ -102,6 +143,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.221"
         app:srcCompat="@drawable/right_arrow" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="308dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/songTittle" />
+
+    <TextView
+        android:id="@+id/seekbarStart"
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:text="00:00"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/songTittle" />
+
+    <TextView
+        android:id="@+id/seekbarEnd"
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="356dp"
+        android:layout_marginTop="40dp"
+        android:gravity="start|center_vertical"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/songTittle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

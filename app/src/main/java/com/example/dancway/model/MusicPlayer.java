@@ -22,6 +22,12 @@ public class MusicPlayer {
         }
     }
 
+    public void changePosition(int position){
+        mediaPlayer.seekTo(position);
+    }
+
+    public MediaPlayer getPlayer(){return mediaPlayer;}
+
     private void preparePlayerConc(){       //As preparing the player might be slow it might crash the UI thread. So it's executed concurrently
         Thread thread = new Thread() {  //Implementing run from Thread to use function concurrently
             @Override
@@ -55,6 +61,7 @@ public class MusicPlayer {
 
     public void changeSong(Song newSong){   //Stops current song and switches to new one
         try {
+            mediaPlayer.reset();
             mediaPlayer.setDataSource(newSong.getUrl());
             currentSong = newSong;
         } catch (IOException e) {
@@ -102,4 +109,7 @@ public class MusicPlayer {
         }
     }
 
+    public void unpausePlayer() {
+        mediaPlayer.start();
+    }
 }

@@ -4,6 +4,14 @@ public class    Session {  //Most of session will be implemented in later increm
     private String id;
     private User user;
 
+    public Session(String id, User user){
+        this.id = id;
+        this.user = user;
+    }
+
+    public Session() {
+    }
+
     public String getId() {
         return id;
     }

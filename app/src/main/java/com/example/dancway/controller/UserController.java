@@ -63,7 +63,7 @@ public class UserController {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            user = new User(Objects.requireNonNull(auth.getCurrentUser())); //Stores FirebaseUser in user if its not null
+                            user = User.getCurrentUser(auth.getCurrentUser(), username);
                             Toast.makeText(context, "User registered successfully", Toast.LENGTH_SHORT).show();
                             
 							//On success store in permanent Storage
@@ -99,7 +99,7 @@ public class UserController {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    user = new User(Objects.requireNonNull(auth.getCurrentUser())); //Stores FirebaseUser in user if its not null
+                    user = User.getCurrentUser(auth.getCurrentUser(), email); //Stores FirebaseUser in user if its not null
                     Toast.makeText(context, "User logged in", Toast.LENGTH_SHORT).show();
                     
 					//Permanent Storage

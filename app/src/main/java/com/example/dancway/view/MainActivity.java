@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     @Override
     public void onItemClicked(int position) {
         // Start SongPlayer activity and pass the position of clicked song
-        Intent songPlayerIntent = new Intent(MainActivity.this, SongPlayer.class);
+        Intent songPlayerIntent = new Intent(MainActivity.this, SongPlayerActivity.class);
         songPlayerIntent.putExtra("pos", position);
         MainActivity.this.startActivity(songPlayerIntent);
     }

@@ -1,32 +1,118 @@
 package com.example.dancway.model;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PartyMode extends Session {    //Will implement online session later in next increments
 
     private String codeGenerator ;
-    private List<User> connectedUsers ;
+    private List<String> connectedUsers ;
     private ArrayList<Song> songList;
     private SongQueue songQueue;
 
-    public PartyMode(){
-        SessionCodeGen gen = new SessionCodeGen();
-        codeGenerator = gen.getCode();
-        connectedUsers = new ArrayList<>();
-        songList = new ArrayList<>();
-        songQueue = new SongQueue(100);
 
-        currentSession();
+    public PartyMode(User guestUser, String code){
+        if(guestUser.getPartyRole() == PartyRole.GUEST) {
+            connectedUsers = new ArrayList<>();
+            songList = new ArrayList<>();
+            songQueue = new SongQueue(100);
+            connectToParty(guestUser, code);
+        }
     }
 
-    public void currentSession(){
+    public PartyMode(User master) {
+        if (master.getPartyRole() == PartyRole.MASTER) {
+            SessionCodeGen gen = new SessionCodeGen();
+            codeGenerator = gen.getCode();
+            connectedUsers = new ArrayList<>();
+            connectedUsers.add(master.getUsername().split("@")[0]); //TODO: JUST FOR TEST PURPOSES!!!!!!!!!!!
+            songList = new ArrayList<>();
+            songQueue = new SongQueue(100);
+            createPartySession();
+        }
+    }
+    
+    private void connectToParty(User guest, String seshCode){
+        DatabaseReference databaseRoot = FirebaseDatabase.getInstance().getReference().child("Session").child(seshCode);
+        databaseRoot.child("UserList").child(guest.getUsername().split("@")[0]).setValue(""); //TODO: For now value is empty, add UID later on
+        updateFromDB(databaseRoot);
+    }
+
+    public void updateFromDB(DatabaseReference databaseReference){
+        Thread updateFromDB = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                takeNewInfo(databaseReference);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        updateFromDB.start();
+    }
+
+    private void takeNewInfo(DatabaseReference databaseReference) {
+        databaseReference.child("UserList").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+//                    User temp = new User(it.getKey());
+                    connectedUsers.add(it.getKey());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("Error: ",e.getMessage());
+            }
+        });
+        databaseReference.child("SongsList").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+                    Song temp = new Song(it.getKey(), (String) it.getValue());
+                    songList.add(temp);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("Error: ",e.getMessage());
+            }
+        });
+        databaseReference.child("SongsQueue").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+                    Song temp = new Song(it.getKey(), (String) it.getValue());
+                    songQueue.addSong(temp);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("Error: ",e.getMessage());
+            }
+        });
+    }
+
+    private void createPartySession(){
         //TODO: make sure after the session is ended , we delete the branch
 
         //make a ref to db and make a ref to the root which has a child named Session
@@ -36,7 +122,7 @@ public class PartyMode extends Session {    //Will implement online session late
 
         Map<String, String> userList = new HashMap<>();
         for(int i = 0; i< connectedUsers.size();i++){
-            userList.put(connectedUsers.get(i).getUsername(),"");
+            userList.put(connectedUsers.get(i),"");
         }
         sessionBranch.put("UserList",userList);
 
@@ -54,6 +140,8 @@ public class PartyMode extends Session {    //Will implement online session late
         sessionBranch.put("SongsQueue",queue);
 
         databaseRoot.child(codeGenerator).setValue(sessionBranch);
+
+        updateFromDB(databaseRoot.child(codeGenerator));
     }
 
     public String getCodeGenerator() {
@@ -64,23 +152,20 @@ public class PartyMode extends Session {    //Will implement online session late
         this.codeGenerator = codeGenerator;
     }
 
-    public List<User> getConnectedUsers(){
+    public List<String> getConnectedUsers(){
         return connectedUsers;
     }
 
     public void addUser(User user) {
         // probably we want to add not the whole user object, but only some props from it
-        connectedUsers.add(user);
+        connectedUsers.add(user.getUsername());
     }
 
     public void removeUser(User user) {
         connectedUsers.remove(user);
     }
 
-    public void saveCurrentSession(){
-//        DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child("id").child("list");
-//        sessionRef.setValue("testValue");
-    }
+
 
 
 

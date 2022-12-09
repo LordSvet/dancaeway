@@ -1,17 +1,5 @@
 package com.example.dancway.model;
 
-import android.os.Bundle;
+import com.example.dancway.R;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-//import com.example.dancway.R;
-
-public class PartyGuest extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-}
+public class PartyGuest {}

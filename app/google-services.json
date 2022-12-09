@@ -15,34 +15,21 @@
       },
       "oauth_client": [
         {
-          "client_id": "963140958043-3j199c5nkn1vsluv7cnsm6cmlitlb9tq.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
+          "client_id": "963140958043-8544a7mrdv222jrmnre347d0gip76l4b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dancway",
+            "certificate_hash": "ad4edbee8999a8f4a96417891e9326bc4de9005a"
+          }
+        },
         {
-          "current_key": "AIzaSyAJkFjJjelyJ1MFTtv37v5V3WFVCzT6oMg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "963140958043-3j199c5nkn1vsluv7cnsm6cmlitlb9tq.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:963140958043:android:daa5c59495752a3cab0c7e",
-        "android_client_info": {
-          "package_name": "com.example.logintest"
-        }
-      },
-      "oauth_client": [
+          "client_id": "963140958043-9lovfbtlic8v1dhthjlom1cv499b04de.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dancway",
+            "certificate_hash": "bcb95f7a5efb6cd7b3bc883404157d96b61ecfb5"
+          }
+        },
         {
           "client_id": "963140958043-3j199c5nkn1vsluv7cnsm6cmlitlb9tq.apps.googleusercontent.com",
           "client_type": 3

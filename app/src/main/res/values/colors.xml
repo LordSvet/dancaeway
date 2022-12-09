@@ -11,4 +11,5 @@
     <color name="background_purple">#645278</color>              <!--app background purple -->
     <color name="general">#1E252B</color>
     <color name= "secondary_pink">#FFBEF5</color>              <!-- used for song title and artist name -->
+    <color name="sunglow_yellow">#FFCB4C</color>
 </resources>

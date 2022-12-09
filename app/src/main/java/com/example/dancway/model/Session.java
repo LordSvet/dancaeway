@@ -1,29 +1,36 @@
 package com.example.dancway.model;
 
-public class    Session {  //Most of session will be implemented in later increments
+/**
+ * The class that holds all the data that is relevant for the current music session
+ */
+public class Session {  //Most of session will be implemented in later increments
     private String id;
     private User user;
 
-    public Session(String id, User user){
-        this.id = id;
-        this.user = user;
-    }
-
-    public Session() {
-    }
-
+    /**
+     * @return the id of the session
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @return the user object of the session
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * @param id assigns a new id to the current session
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @param user assigns a new user of the session
+     */
     public void setUser1(User user) {
         this.user = user;
     }

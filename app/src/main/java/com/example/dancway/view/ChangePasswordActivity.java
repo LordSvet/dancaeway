@@ -16,12 +16,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * This activity is for changing password
+ */
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText enterEmail;
     private Button sendCode;
     private TextView signUp;
     FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         signUp = (TextView) findViewById(R.id.registerForgot);
         auth = FirebaseAuth.getInstance();
 
+        /**
+         * When sign up button is clicked, opens startActivity
+         */
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,16 +48,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * When send code button is clicked, gives the option to reset password
+         */
         sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 resetPassword();
             }
         });
-
-
     }
 
+    /**
+     * this method is for reseting password
+     */
     public void resetPassword() {
         String email = enterEmail.getText().toString().trim();
 

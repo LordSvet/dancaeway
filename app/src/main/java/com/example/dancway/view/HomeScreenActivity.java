@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.example.dancway.R;
 import com.example.dancway.model.User;
 
+/**
+ * This is the homescreen activity
+ */
 public class HomeScreenActivity extends AppCompatActivity {
     TextView partyMode;
     TextView greetings;
@@ -59,14 +62,12 @@ public class HomeScreenActivity extends AppCompatActivity {
                 startActivity(nextActivity);
             }
         });
-//        playlistsCard.setOnClickListener(new View.OnClickListener() {
+//      playlistsCard.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //                Intent nextActivity = new Intent(HomeScreenActivity.this, UserProfileActivity.class);
 //            }
 //        });
         //TODO: SETTINGS AND PLAYLISTS CREATION LATER
-
     }
-
 }

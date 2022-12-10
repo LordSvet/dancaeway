@@ -17,7 +17,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class PartyMode extends Session {    //Will implement online session later in next increments
+/**
+ * This class holds information about partymode
+ */
+public class PartyMode extends Session {    // Will implement online session later in next increments
 
     private String codeGenerator ;
     private List<String> connectedUsers ;
@@ -39,19 +42,28 @@ public class PartyMode extends Session {    //Will implement online session late
             SessionCodeGen gen = new SessionCodeGen();
             codeGenerator = gen.getCode();
             connectedUsers = new ArrayList<>();
-            connectedUsers.add(master.getUsername().split("@")[0]); //TODO: JUST FOR TEST PURPOSES!!!!!!!!!!!
+            connectedUsers.add(master.getUsername().split("@")[0]); // TODO: JUST FOR TEST PURPOSES!!!!!!!!!!!
             songList = new ArrayList<>();
             songQueue = new SongQueue(100);
             createPartySession();
         }
     }
-    
+
+    /**
+     * This method connects to a party
+     * @param guest who is not party master
+     * @param seshCode session code of that party
+     */
     private void connectToParty(User guest, String seshCode){
         DatabaseReference databaseRoot = FirebaseDatabase.getInstance().getReference().child("Session").child(seshCode);
-        databaseRoot.child("UserList").child(guest.getUsername().split("@")[0]).setValue(""); //TODO: For now value is empty, add UID later on
+        databaseRoot.child("UserList").child(guest.getUsername().split("@")[0]).setValue(""); // TODO: For now value is empty, add UID later on
         updateFromDB(databaseRoot);
     }
 
+    /**
+     * Updating the info from firebase database
+     * @param databaseReference an instace of the database reference
+     */
     public void updateFromDB(DatabaseReference databaseReference){
         Thread updateFromDB = new Thread(new Runnable() {
             @Override
@@ -67,16 +79,20 @@ public class PartyMode extends Session {    //Will implement online session late
         updateFromDB.start();
     }
 
+    /**
+     * This method takes information from the referenced firebase realtime database
+     * @param databaseReference an instance of database reference
+     */
     private void takeNewInfo(DatabaseReference databaseReference) {
         databaseReference.child("UserList").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
-//                    User temp = new User(it.getKey());
+                for(DataSnapshot it : dataSnapshot.getChildren()){  // On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+    //              User temp = new User(it.getKey());
                     connectedUsers.add(it.getKey());
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+        }).addOnFailureListener(new OnFailureListener() {   // On failure logs the error message on Logcat
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("Error: ",e.getMessage());
@@ -90,7 +106,7 @@ public class PartyMode extends Session {    //Will implement online session late
                     songList.add(temp);
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+        }).addOnFailureListener(new OnFailureListener() {   // On failure logs the error message on Logcat
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("Error: ",e.getMessage());
@@ -99,12 +115,12 @@ public class PartyMode extends Session {    //Will implement online session late
         databaseReference.child("SongsQueue").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+                for(DataSnapshot it : dataSnapshot.getChildren()){  // On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
                     Song temp = new Song(it.getKey(), (String) it.getValue());
                     songQueue.addSong(temp);
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+        }).addOnFailureListener(new OnFailureListener() {   // On failure logs the error message on Logcat
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("Error: ",e.getMessage());
@@ -112,10 +128,14 @@ public class PartyMode extends Session {    //Will implement online session late
         });
     }
 
+    /**
+     * This method creates a party session and
+     * puts the information of users', songs list and songs queue in the firebase realtime database
+     */
     private void createPartySession(){
-        //TODO: make sure after the session is ended , we delete the branch
+        // TODO: make sure after the session is ended , we delete the branch
 
-        //make a ref to db and make a ref to the root which has a child named Session
+        // make a ref to db and make a ref to the root which has a child named Session
         DatabaseReference databaseRoot = FirebaseDatabase.getInstance().getReference().child("Session");
 
         Map<String, Map<String, String>> sessionBranch = new HashMap<>();
@@ -164,9 +184,5 @@ public class PartyMode extends Session {    //Will implement online session late
     public void removeUser(User user) {
         connectedUsers.remove(user);
     }
-
-
-
-
 
 }

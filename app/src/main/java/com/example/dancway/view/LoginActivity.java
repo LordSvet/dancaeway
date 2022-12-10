@@ -22,6 +22,10 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * This is login activity
+ */
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth auth;
@@ -60,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-// making Register text clickable and moving from login screen back to register activity
+        // making Register text clickable and moving from login screen back to register activity
         signup = (TextView) findViewById(R.id.signup);
 
         /**
@@ -80,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
 
         /**
-         * When forgot password is clicked, goes to ChangePassword Activity
+         * When forgot password is clicked, it goes to ChangePassword Activity
          */
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         /**
          * Google Sign in logic
-         * When button is clicked, call;s the signInGoogle method
+         * When button is clicked calls the signInGoogle method
          */
         signGoogle = (Button) findViewById(R.id.login_with_google);
         signGoogle.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * This method, opens the google Sign in page
+     * This method opens the google Sign in page
      */
     private void signInGoogle() {
 
@@ -114,12 +118,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     *
+     * If the task of Google Sign in is succesfful, it jumps to the main activity,
+     * otherwise it shows the error
      * @param requestCode
      * @param resultCode
      * @param data
-     * If the task of Google Sign in is succesfful, it jumps to the main activity,
-     * otherwise it shows the error.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -146,14 +149,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
+     * Implements the Login logic.
+     * Checks if the field, like email and password are empty.
+     * Checks if password given is less than 8 characters, which are the min bassed on register password pattern.
      * @param view
-     *  Implements the Login logic.
-     *  Checks if the field, like email and password are empty.
-     *  Checks if password given is less than 8 characters, which are the min bassed on register password pattern.
      * @returns to the method if the requirements are not met.
      */
     @Override
-    public void onClick(View view) {    //TODO: Check if needed
+    public void onClick(View view) {    // TODO: Check if needed
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
@@ -191,5 +194,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-    }
-
+}

@@ -13,10 +13,9 @@ import com.example.dancway.R;
 import com.example.dancway.controller.SongsListAdapter;
 import com.example.dancway.controller.SongsListController;
 
-
-
-
-
+/**
+ * This activity is to change to the mode, party mode or solo mode
+ */
 public class ModeSelectionActivity extends AppCompatActivity {
 
    ImageView partyMode, soloMode;
@@ -26,7 +25,6 @@ public class ModeSelectionActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_selection);
-
 
         partyMode = (ImageView) findViewById(R.id.party_illustration);
         partyMode.setOnClickListener(new View.OnClickListener() {

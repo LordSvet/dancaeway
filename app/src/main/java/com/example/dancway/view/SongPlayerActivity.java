@@ -16,6 +16,9 @@ import com.example.dancway.controller.MusicPlayerControllerSingleton;
 import com.example.dancway.controller.SongsListController;
 import com.example.dancway.model.Song;
 
+/**
+ * This is song player activity
+ */
 public class SongPlayerActivity extends AppCompatActivity {
 
     MusicPlayerControllerSingleton musicPlayerController;
@@ -141,6 +144,9 @@ public class SongPlayerActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is for updating the seekebar of the player
+     */
     public void updateSeekbar(){
         int currentPosition = musicPlayerController.getMusicPlayer().getCurrentPosition();
         seekBar.setProgress(currentPosition/1000);

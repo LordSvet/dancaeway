@@ -2,13 +2,15 @@ package com.example.dancway.model;
 
 import java.util.PriorityQueue;
 
+/**
+ * The class that represents song's queue
+ */
 public class SongQueue {
 
     private PriorityQueue<Song> queue;
 
     /**
      * Create a new song queue with the specified capacity
-     *
      * @param initialCapacity capacity of the queue
      */
     public SongQueue(int initialCapacity) {
@@ -24,7 +26,6 @@ public class SongQueue {
 
     /**
      * Add new song to the queue
-     *
      * @param song The Song object to add
      * @return true if success; else false
      */
@@ -41,7 +42,6 @@ public class SongQueue {
 
     /**
      * Get the song queue
-     *
      * @return the song queue
      */
     public PriorityQueue<Song> getQueue() {

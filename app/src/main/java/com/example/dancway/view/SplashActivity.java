@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
 
+/**
+ * This is the splash activity of the logo screen
+ */
 public class SplashActivity extends AppCompatActivity {
 
     Animation rotateAnimation;
@@ -26,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         logo = (ImageView)findViewById(R.id.logo_rotation);
         rotateAnimation();
 
-        // start sctivity after 2500 millisec and goes from splash to register activity //
+        // start sctivity after 2500 millisec and goes from splash to register activity
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -42,7 +45,9 @@ public class SplashActivity extends AppCompatActivity {
         thread.start();
             }
 
-          // Method that rotates the imageView of logo //
+    /**
+     * Method that rotates the imageView of logo
+     */
     private void rotateAnimation() {
 
         rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotation);

@@ -20,7 +20,9 @@ import com.example.dancway.model.SongsList;
 
 import java.util.List;
 
-//Custom adapter for filling every view in a RecyclerView
+/**
+ * Custom adapter for filling every view in a RecyclerView
+ */
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
 
     private SongsList listOfSongs;
@@ -31,13 +33,20 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
-    //Inner class ViewHolder represents each view which holds a song title for now in the TextView songTitle
+    /**
+     * Inner class ViewHolder represents each view which holds a song title for now in the TextView songTitle
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView songTitle;
         public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             songTitle = itemView.findViewById(R.id.songTitle_In_ListView);
-            itemView.setOnClickListener(new View.OnClickListener() {        //Overriding onClick from our recyclerViewInterface interface
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                /**
+                 * Overriding onClick from our recyclerViewInterface interface
+                 * @param view The view to click
+                 */
                 @Override
                 public void onClick(View view) {
                     if(recyclerViewInterface != null) {
@@ -51,22 +60,35 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
             });
         }}
 
-
+    /**
+     * Inflates the view and creates new ViewHolder
+     * @param parent  type of Viewgroup
+     * @param viewType basically an enumeration of Viewgroup
+     * @return a new viewholder
+     */
     @Override
-    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {     //Inflates the view and creates new ViewHolder
+    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_view_item, parent, false);
         return new ViewHolder(view, recyclerViewInterface);
     }
 
+    /**
+     * Setting of each view's title in ViewHolder
+     * @param holder Holding the song
+     * @param position The positoin of the song
+     */
     @Override
-    public void onBindViewHolder(SongsListAdapter.ViewHolder holder, int position) {    //Setting each view's title in ViewHolder
+    public void onBindViewHolder(SongsListAdapter.ViewHolder holder, int position) {
         Song myData = listOfSongs.getSongAt(position);
         holder.songTitle.setText(myData.getTitle() + " - " + myData.getArtist().getName());
     }
 
+    /**
+     * @return the size of the list
+     */
     @Override
     public int getItemCount() {
         return listOfSongs.getSize();
-    }   //Returns size of list
+    }
 }

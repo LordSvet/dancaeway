@@ -15,6 +15,9 @@ import com.example.dancway.model.PartyMode;
 import com.example.dancway.model.PartyRole;
 import com.example.dancway.model.User;
 
+/**
+ * This is the join party activity
+ */
 public class JoinPartyActivity extends AppCompatActivity {
 
     TextView becomeMaster;
@@ -46,8 +49,9 @@ public class JoinPartyActivity extends AppCompatActivity {
             }
         });
 
-
-
+        /**
+         * When join session button is clicked, user is taken to party mode
+         */
         joinSesh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

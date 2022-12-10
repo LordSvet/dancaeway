@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-     * @param view
+     * @param view an instance of View is passed
      * Implements the Register logic.
      * Checks if fields like, Name, Email, and Password are empty.
      * Checks for email and password if they match the patterns specified.

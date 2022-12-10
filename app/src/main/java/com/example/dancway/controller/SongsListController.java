@@ -14,6 +14,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * The class that controlls songs which reside in songslistrepository
+ */
 public class SongsListController {
     static private SongsList songsList;
     private Activity context;
@@ -22,10 +25,16 @@ public class SongsListController {
         this.context = context;
     }
 
+    /**
+     * @return the list of songs
+     */
     public static SongsList getSongsList() {
         return songsList.getList();
     }
 
+    /**
+     * @return the context
+     */
     public Activity getContext(){return context;}
 
     public void setContext(Activity newContext){context = newContext;}
@@ -43,13 +52,13 @@ public class SongsListController {
         databaseRoot.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+                for(DataSnapshot it : dataSnapshot.getChildren()){  // On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
                     Song temp = new Song(String.valueOf(it.child("name").getValue()),     (long)it.child("duration").getValue(),
                             new Artist(String.valueOf(it.child("artist").getValue())),  String.valueOf(it.child("url").getValue()));
                     songsList.addSong(temp);
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {   //On failure logs the error message on Logcat
+        }).addOnFailureListener(new OnFailureListener() {   // On failure logs the error message on Logcat
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("Error: ",e.getMessage());

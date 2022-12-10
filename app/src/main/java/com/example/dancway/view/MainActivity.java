@@ -13,6 +13,9 @@ import com.example.dancway.controller.RecyclerViewInterface;
 import com.example.dancway.controller.SongsListAdapter;
 import com.example.dancway.controller.SongsListController;
 
+/**
+ * This is the main activity
+ */
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface {
     RecyclerView songsListView;
     SongsListAdapter listAdapter;
@@ -37,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         };
         populateSongsThread.start();
 
-        Handler handler = new Handler();        //Songs are loaded concurrently so adapter is empty when set so I put a delay of 2 seconds
-        handler.postDelayed(new Runnable() {    //This will be changed with later implementations
+        Handler handler = new Handler();        // Songs are loaded concurrently so adapter is empty when set so I put a delay of 2 seconds
+        handler.postDelayed(new Runnable() {    // This will be changed with later implementations
             @Override
             public void run() {
                 try {

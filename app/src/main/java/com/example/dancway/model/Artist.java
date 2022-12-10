@@ -2,37 +2,32 @@ package com.example.dancway.model;
 import java.util.ArrayList;
 
 /**
- * The class holds information about the Artist of a song
+ * This is the Class that holds Artist's info
  */
-public class Artist {
+public class Artist {       // Very basic for now will add functionalities in later increment
     private String name;
     private ArrayList<Song> listOfTracks;
 
-    /**
-     * @param name Sets the artist names
-     */
     public Artist(String name){
         this.name = name;
         listOfTracks = loadArtistTracks();
     }
 
     /**
-     * @return name of the artist
+     *
+     * @return the name of the artist
      */
     public String getName(){return name;}
 
-    /**
-     * @param newName assigns a new name for existing artist object
-     */
     public void setName(String newName){name = newName;}
 
     /**
-     * @return the number of songs in the list of songs
+     * @return the total number of songs belong to that artist
      */
     public int getNumberOfTracks(){return listOfTracks.size();}
 
     /**
-     * @return the list of tracks
+     * @return the songs belong to a artist
      */
     private ArrayList<Song> loadArtistTracks(){return listOfTracks;} //Method will be finished in later increment
 }

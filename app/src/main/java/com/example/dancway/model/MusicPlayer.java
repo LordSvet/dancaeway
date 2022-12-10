@@ -6,14 +6,17 @@ import android.util.Log;
 
 import java.io.IOException;
 
+/**
+ * This class represents the music player of the app
+ */
 public class MusicPlayer {
     private MediaPlayer mediaPlayer;
     private Song currentSong;
 
     public MusicPlayer() {
         if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();    //Initiating it
-            mediaPlayer.setAudioAttributes(     //setting the appropriate configuration for Music streaming
+            mediaPlayer = new MediaPlayer();    // initiating it
+            mediaPlayer.setAudioAttributes(     // setting the appropriate configuration for Music streaming
                     new AudioAttributes.Builder()
                             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                             .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -28,8 +31,11 @@ public class MusicPlayer {
 
     public MediaPlayer getPlayer(){return mediaPlayer;}
 
-    private void preparePlayerConc(){       //As preparing the player might be slow it might crash the UI thread. So it's executed concurrently
-        Thread thread = new Thread() {  //Implementing run from Thread to use function concurrently
+    /**
+     * As preparing the player might be slow it might crash the UI thread. So it's executed concurrently
+     */
+    private void preparePlayerConc() {
+        Thread thread = new Thread() {  // Implementing run from Thread to use function concurrently
             @Override
             public void run() {
                 preparePlayer();
@@ -41,11 +47,13 @@ public class MusicPlayer {
     public Song getCurrentSong(){
         if(currentSong != null)
         return currentSong;
-        return new Song("",69,new Artist("BabaTi"),""); //TODO: Change
+        return new Song("",69,new Artist("BabaTi"),""); // TODO: Change
     }
 
-
-    public void preparePlayer(){    //Prepares and plays song that is set to mediaPlayer
+    /**
+     * This method prepares and plays song that is set to mediaPlayer
+     */
+    public void preparePlayer(){
         try {
             mediaPlayer.prepare();
         } catch (IOException e) {
@@ -59,7 +67,11 @@ public class MusicPlayer {
         });
     }
 
-    public void changeSong(Song newSong){   //Stops current song and switches to new one
+    /**
+     * This method stops current song and switches to new one
+     * @param newSong the nexsong from the playlist
+     */
+    public void changeSong(Song newSong){
         try {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(newSong.getUrl());
@@ -70,10 +82,14 @@ public class MusicPlayer {
         preparePlayerConc();
     }
 
-    public void playSong(Song song){    //Plays song thats passed as argument
+    /**
+     * Plays song thats passed as argument
+     * @param song selected song
+     */
+    public void playSong(Song song){
         try{
-            if(mediaPlayer.isPlaying()) reInitialize();    //If mediaPlayer is currently playing gets sent back to initialized state again so it can start prepare for new song
-            try {   //When spamming the play button it might give IllegalStateException if it loads too slow so this fixes it
+            if(mediaPlayer.isPlaying()) reInitialize();    // If mediaPlayer is currently playing gets sent back to initialized state again so it can start prepare for new song
+            try {   // When spamming the play button it might give IllegalStateException if it loads too slow so this fixes it
                 mediaPlayer.setDataSource(song.getUrl());
             } catch (IllegalStateException e){
                 return;
@@ -88,7 +104,7 @@ public class MusicPlayer {
         mediaPlayer.start();
     }
 
-    public void pause() {    //pauses song
+    public void pause() {   // pauses song
         if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
@@ -102,7 +118,7 @@ public class MusicPlayer {
         releasePlayer();
     }
 
-    private void releasePlayer() {   //Releases resources used by player
+    private void releasePlayer() {   // Releases resources used by player
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
@@ -112,4 +128,5 @@ public class MusicPlayer {
     public void unpausePlayer() {
         mediaPlayer.start();
     }
+    
 }

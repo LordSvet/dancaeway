@@ -18,6 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
+/**
+ * The class that holds all the data that is relevant for user
+ */
 public class UserController {
     private User user;
     private FirebaseAuth auth;
@@ -25,19 +28,25 @@ public class UserController {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    //Instance Reference
+    /**
+     * Instance Reference
+     */
     private static UserController single_instance = null;
 
     private UserController(Activity context){
 
         auth = FirebaseAuth.getInstance();
         this.context = context;
-    // Setup storage
+        // Setup storage
         sharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
-    // Restrict to singular Object
+    /**
+     * Restrict to singular Object
+     * @param context current state of the object
+     * @return a single instance
+     */
     public static UserController getInstance(Activity context){
         if (single_instance == null)
             single_instance = new UserController(context);
@@ -46,17 +55,30 @@ public class UserController {
 
     public void setUser(User newUser){user = newUser;}
 
+    /**
+     * @return the user
+     */
     public User getUser(){return user;}
 
     public void setActivity(Activity newContext){context = newContext;}
 
+    /**
+     * @return the activity context
+     */
     public Activity getActivityContext(){return context;}
 
     public void register(String email, String password, String repeat_password, String username){
         registerUser(email, password, repeat_password, username);
     }
 
-    private void registerUser(String email, String password, String repeat_password ,String username) {
+    /**
+     * This method register a user
+     * @param email The user email address
+     * @param password The user password
+     * @param repeat_password password has to be repeated
+     * @param username desired username of the user
+     */
+    private void registerUser(String email, String password, String repeat_password, String username) {
 
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -66,7 +88,7 @@ public class UserController {
                             user = User.getCurrentUser(auth.getCurrentUser(), username);
                             Toast.makeText(context, "User registered successfully", Toast.LENGTH_SHORT).show();
                             
-							//On success store in permanent Storage
+							// On success store in permanent Storage
                             editor.putString("email",email);
                             editor.putString("pass",password);
                             editor.putBoolean("loggedin",true);
@@ -77,8 +99,10 @@ public class UserController {
                     }
                 });
     }
-
-    // returns true on success
+    
+    /**
+     * @return True, if the user is already loggedin
+     */
     public boolean autologin(){
 
         if ( sharedPreferences.getBoolean("loggedin" , false))
@@ -93,6 +117,11 @@ public class UserController {
 
     public void login(String email, String password){loginUser(email,password);}
 
+    /**
+     * This method login a user and stores the login state
+     * @param email The email which was given at registration part
+     * @param password The password which was given at registration part
+     */
     private void loginUser(String email, String password){
 
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -102,7 +131,7 @@ public class UserController {
                     user = User.getCurrentUser(auth.getCurrentUser(), email); //Stores FirebaseUser in user if its not null
                     Toast.makeText(context, "User logged in", Toast.LENGTH_SHORT).show();
                     
-					//Permanent Storage
+					// Permanent Storage
                     editor.putString("email",email);
                     editor.putString("pass",password);
                     editor.putBoolean("loggedin",true);
@@ -122,7 +151,10 @@ public class UserController {
         editor.apply();
     }
 
-    // Check if logged in
+    /**
+     * Checks the user is logged in or not
+     * @return the state
+     */
     public boolean logstate(){
         boolean loggedin = sharedPreferences.getBoolean("loggedin", false);
         return loggedin;

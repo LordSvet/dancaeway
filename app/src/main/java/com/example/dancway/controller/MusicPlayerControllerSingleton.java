@@ -10,19 +10,23 @@ import com.example.dancway.model.Song;
 import java.io.IOException;
 
 /**
- * The class uses MediaPlayer as the audio player
+ * The class uses MediaPlayer as the audio player. Singleton class pattern is selected
+ * to avoid multiple music players playing at the same time
  */
 
 public class MusicPlayerControllerSingleton {
     private MusicPlayer musicPlayer;
     private static MusicPlayerControllerSingleton instance;
 
+    /**
+     * Constructor initializes musicPlayer
+     */
     private MusicPlayerControllerSingleton() {    //Passing song to be played when creating player
         musicPlayer = new MusicPlayer();
     }
 
     /**
-     * @return a song in the musicplayer
+     * @return current instance
      */
     public static synchronized MusicPlayerControllerSingleton getInstance(){
         if(instance == null){
@@ -46,24 +50,36 @@ public class MusicPlayerControllerSingleton {
     }
 
     /**
-     * @param newSong
+     * @param newSong changes current song to newSong
      */
     public void changeSong(Song newSong){
         musicPlayer.changeSong(newSong);
     }
 
+    /**
+     * Stops the player
+     */
     public void stopPlayer(){
         musicPlayer.stopPlayer();
     }
 
+    /**
+     * Pauses the player
+     */
     public void pausePlayer(){
         musicPlayer.pause();
     }
 
+    /**
+     * Unpauses the player
+     */
     public void unPausePlayer(){
         musicPlayer.unpausePlayer();
     }
 
+    /**
+     * Resets the player
+     */
     public void reInitializePlayer(){
         musicPlayer.reInitialize();
     }

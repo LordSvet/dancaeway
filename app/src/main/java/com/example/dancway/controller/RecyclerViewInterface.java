@@ -1,7 +1,7 @@
 package com.example.dancway.controller;
 
 /**
- * RecyclerViewInterface makes it easy to efficiently display large sets of data. It recycles those individual elements.
+ * RecyclerViewInterface is used to implement an onItemClicked method so that we get the position of the item clicked in the RecyclerView
  */
 public interface RecyclerViewInterface {
     void onItemClicked(int position);

@@ -4,13 +4,22 @@ import java.util.Random;
 
 /**
  * This class generates a simple 5-character String with 3 numbers and 2 letters
+ * Code is used to create/join party sessions
  */
 public class SessionCodeGen {
 
+    /**
+     * Calls {@link #codeGenerator() codeGenerator()}
+     * @return returns the code from codeGenerator()
+     */
     public String getCode(){
         return codeGenerator();
     }
 
+    /**
+     * Generates a random 5-character code with 3 numbers and 2 letters
+     * @return  returns the generated code
+     */
     private String codeGenerator(){     // TODO: When sessions are implemented check if code already exists in RT DB
         String code = "";
         Random r = new Random();

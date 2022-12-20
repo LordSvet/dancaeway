@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Objects;
 
 /**
- * The class that holds all the data that is relevant for user
+ * The class that holds all the data that is relevant for user. Has singleton pattern in order to be able to get a single instance from everywhere
  */
 public class UserController {
     private User user;
@@ -67,6 +67,9 @@ public class UserController {
      */
     public Activity getActivityContext(){return context;}
 
+    /**
+     *Calls {@link #register(String, String, String, String) register} method
+     */
     public void register(String email, String password, String repeat_password, String username){
         registerUser(email, password, repeat_password, username);
     }

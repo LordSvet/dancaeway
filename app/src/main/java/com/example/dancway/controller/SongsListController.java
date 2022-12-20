@@ -15,12 +15,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * The class that controlls songs which reside in songslistrepository
+ * The class that controls songs which reside in SongsListRepository
  */
 public class SongsListController {
     static private SongsList songsList;
     private Activity context;
 
+    /**
+     * Constructor
+     * @param context takes in current activity context as argument
+     */
     public SongsListController(Activity context){
         this.context = context;
     }
@@ -29,16 +33,24 @@ public class SongsListController {
      * @return the list of songs
      */
     public static SongsList getSongsList() {
-        return songsList.getList();
+        return songsList;
     }
 
     /**
-     * @return the context
+     * @return returns the context
      */
     public Activity getContext(){return context;}
 
+    /**
+     * Sets new context
+     * @param newContext new context to be set
+     */
     public void setContext(Activity newContext){context = newContext;}
 
+    /**
+     * Sets new songs list
+     * @param newList new list to be set
+     */
     public void setSongsList(SongsList newList) {
         songsList.setList(newList.getArrayList());
     }

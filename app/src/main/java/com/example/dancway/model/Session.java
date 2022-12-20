@@ -7,6 +7,11 @@ public class Session {  // Most of session will be implemented in later incremen
     private String id;
     private User user;
 
+    /**
+     * Constructor
+     * @param id id of session
+     * @param user user that created it
+     */
     public Session(String id, User user){
         this.id = id;
         this.user = user;

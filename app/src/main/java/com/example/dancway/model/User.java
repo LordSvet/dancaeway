@@ -12,6 +12,11 @@ public class User {
     private PartyRole partyRole;
     private static User currentUser;
 
+    /**
+     * Constructor
+     * @param firebaseUser holds a user from Google Firebase
+     * @param username holds username
+     */
     private User(FirebaseUser firebaseUser, String username){
         this.firebaseUser = firebaseUser;
         this.username = username;
@@ -42,18 +47,34 @@ public class User {
 
     public PartyRole getPartyRole(){ return partyRole;}
 
+    /**
+     * Gets username
+     * @return returns username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * sets new username to User
+     * @param username new username to set
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Gets FirebaseUser object
+     * @return returns firebaseUser
+     */
     public FirebaseUser getFirebaseUser() {
         return firebaseUser;
     }
 
+    /**
+     * sets new FirebaseUser to a User
+     * @param firebaseUser new FirebaseUser to set
+     */
     public void setFirebaseUser(FirebaseUser firebaseUser) {
         this.firebaseUser = firebaseUser;
     }

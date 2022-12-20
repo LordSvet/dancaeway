@@ -8,6 +8,10 @@ public class Artist {       // Very basic for now will add functionalities in la
     private String name;
     private ArrayList<Song> listOfTracks;
 
+    /**
+     * Constructor which loads artist's tracks
+     * @param name name of artist
+     */
     public Artist(String name){
         this.name = name;
         listOfTracks = loadArtistTracks();
@@ -29,5 +33,5 @@ public class Artist {       // Very basic for now will add functionalities in la
     /**
      * @return the songs belong to a artist
      */
-    private ArrayList<Song> loadArtistTracks(){return listOfTracks;} //Method will be finished in later increment
+    private ArrayList<Song> loadArtistTracks(){return listOfTracks;} //TODO: Method will be finished in later increment
 }

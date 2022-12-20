@@ -22,12 +22,13 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class PartyMode extends Session {    // Will implement online session later in next increments
 
-    private String codeGenerator ;
-    private List<String> connectedUsers ;
+    private String codeGenerator;
+    private List<String> connectedUsers;
     private ArrayList<Song> songList;
     private SongQueue songQueue;
 
 
+    //Constructor for if user is a guest
     public PartyMode(User guestUser, String code){
         if(guestUser.getPartyRole() == PartyRole.GUEST) {
             connectedUsers = new ArrayList<>();
@@ -36,21 +37,21 @@ public class PartyMode extends Session {    // Will implement online session lat
             connectToParty(guestUser, code);
         }
     }
-
+    //Constructor for if a user is a master
     public PartyMode(User master) {
         if (master.getPartyRole() == PartyRole.MASTER) {
             SessionCodeGen gen = new SessionCodeGen();
             codeGenerator = gen.getCode();
             connectedUsers = new ArrayList<>();
             connectedUsers.add(master.getUsername().split("@")[0]); // TODO: JUST FOR TEST PURPOSES!!!!!!!!!!!
-            songList = new ArrayList<>();
+            songList = new ArrayList<>();                                       //TODO: Just shows email without the @(otherwise it crashes) but we will add usernames once that is set up
             songQueue = new SongQueue(100);
             createPartySession();
         }
     }
 
     /**
-     * This method connects to a party
+     * Connects PartyGuest to the party. Does it every 5 seconds concurrently
      * @param guest who is not party master
      * @param seshCode session code of that party
      */
@@ -61,7 +62,7 @@ public class PartyMode extends Session {    // Will implement online session lat
     }
 
     /**
-     * Updating the info from firebase database
+     * Updating the info from firebase database every 5 seconds
      * @param databaseReference an instace of the database reference
      */
     public void updateFromDB(DatabaseReference databaseReference){
@@ -80,7 +81,7 @@ public class PartyMode extends Session {    // Will implement online session lat
     }
 
     /**
-     * This method takes information from the referenced firebase realtime database
+     * This method takes information from the referenced firebase realtime database and updates the lists
      * @param databaseReference an instance of database reference
      */
     private void takeNewInfo(DatabaseReference databaseReference) {
@@ -88,7 +89,7 @@ public class PartyMode extends Session {    // Will implement online session lat
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 for(DataSnapshot it : dataSnapshot.getChildren()){  // On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
-    //              User temp = new User(it.getKey());
+    //              User temp = new User(it.getKey());  //Right now connectedUsers is a list of Strings but that should change to User and add to the RTDB with username as key and id as value(still needs to be discussed)
                     connectedUsers.add(it.getKey());
                 }
             }
@@ -101,12 +102,12 @@ public class PartyMode extends Session {    // Will implement online session lat
         databaseReference.child("SongsList").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                for(DataSnapshot it : dataSnapshot.getChildren()){  //On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
-                    Song temp = new Song(it.getKey(), (String) it.getValue());
+                for(DataSnapshot it : dataSnapshot.getChildren()){
+                    Song temp = new Song(it.getKey(), (String) it.getValue());  //Idea: Maybe we use key from it.getKey() to get the index of where the song is in SongsList?
                     songList.add(temp);
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {   // On failure logs the error message on Logcat
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("Error: ",e.getMessage());
@@ -115,12 +116,12 @@ public class PartyMode extends Session {    // Will implement online session lat
         databaseReference.child("SongsQueue").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                for(DataSnapshot it : dataSnapshot.getChildren()){  // On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
-                    Song temp = new Song(it.getKey(), (String) it.getValue());
+                for(DataSnapshot it : dataSnapshot.getChildren()){
+                    Song temp = new Song(it.getKey(), (String) it.getValue());//Gets the songs for the priority queue ( I think it wont work because Song constructor needs more info)
                     songQueue.addSong(temp);
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {   // On failure logs the error message on Logcat
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("Error: ",e.getMessage());
@@ -176,12 +177,12 @@ public class PartyMode extends Session {    // Will implement online session lat
         return connectedUsers;
     }
 
-    public void addUser(User user) {
+    public void addUser(User user) {    //TODO: has to add user to RTDB too
         // probably we want to add not the whole user object, but only some props from it
         connectedUsers.add(user.getUsername());
     }
 
-    public void removeUser(User user) {
+    public void removeUser(User user) { //TODO: Has to remove user from RTDB and update that user's UI
         connectedUsers.remove(user);
     }
 

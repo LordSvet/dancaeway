@@ -28,6 +28,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     private SongsList listOfSongs;
     private RecyclerViewInterface recyclerViewInterface;
 
+    /**
+     * Constructor
+     * @param listOfSongs list of all Songs
+     * @param recyclerViewInterface Interface for implementing the onItemClicked for the custom RecyclerView
+     */
     public SongsListAdapter(SongsList listOfSongs, RecyclerViewInterface recyclerViewInterface) {
         this.listOfSongs = listOfSongs;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -45,7 +50,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
 
                 /**
                  * Overriding onClick from our recyclerViewInterface interface
-                 * @param view The view to click
+                 * @param view The view that was clicked
                  */
                 @Override
                 public void onClick(View view) {

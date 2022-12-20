@@ -15,6 +15,8 @@ import com.example.dancway.model.PartyMode;
 import com.example.dancway.model.PartyRole;
 import com.example.dancway.model.User;
 
+import java.util.Locale;
+
 /**
  * This is the join party activity
  */
@@ -61,7 +63,7 @@ public class JoinPartyActivity extends AppCompatActivity {
                     User.getCurrentUser().setPartyRole(PartyRole.GUEST);
                     partyMode = new PartyMode(User.getCurrentUser(), inputBar.getText().toString());
                     Intent intent = new Intent(JoinPartyActivity.this, HomeScreenActivity.class);
-                    intent.putExtra("SeshCode", inputBar.getText().toString());
+                    intent.putExtra("SeshCode", inputBar.getText().toString().toUpperCase());
                     intent.putExtra("PartyModeEnabled",true);
                     startActivity(intent);
                 }

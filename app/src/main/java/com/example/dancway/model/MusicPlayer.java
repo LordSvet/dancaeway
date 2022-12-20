@@ -13,6 +13,9 @@ public class MusicPlayer {
     private MediaPlayer mediaPlayer;
     private Song currentSong;
 
+    /**
+     * Constructor initializes mediaPlayer if it is null and sets it up for Music streaming.
+     */
     public MusicPlayer() {
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();    // initiating it
@@ -25,10 +28,19 @@ public class MusicPlayer {
         }
     }
 
+    /**
+     * @param position Determines the position in time
+     * Calls mediaplayer's seekTo() method to skip to the certain position in time
+     *
+     */
     public void changePosition(int position){
         mediaPlayer.seekTo(position);
     }
 
+    /**
+     * Returns the MediaPlayer
+     * @return returns MediaPlayer object
+     */
     public MediaPlayer getPlayer(){return mediaPlayer;}
 
     /**
@@ -44,6 +56,10 @@ public class MusicPlayer {
         thread.start();
     }
 
+    /**
+     *Returns current song
+     * @return returns the current song if it is not null
+     */
     public Song getCurrentSong(){
         if(currentSong != null)
         return currentSong;
@@ -100,24 +116,39 @@ public class MusicPlayer {
             Log.i("Error: ", e.getMessage());
         }
     }
+    /**
+     * Starts the player
+     */
     public void play() {     //plays song
         mediaPlayer.start();
     }
 
+    /**
+     * Pauses current song
+     */
     public void pause() {   // pauses song
         if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
     }
 
+    /**
+     *Resets the player
+     */
     public void reInitialize(){
         mediaPlayer.reset();
     }
 
-    public void stopPlayer() {     //calls releasePlayer. TODO: Make override onStop to release player resources!
+    /**
+     * Calls {@link #releasePlayer() releasePlayer()} method
+     */
+    public void stopPlayer() {     //calls releasePlayer
         releasePlayer();
     }
 
+    /**
+     * Releases resources used by player
+     */
     private void releasePlayer() {   // Releases resources used by player
         if (mediaPlayer != null) {
             mediaPlayer.release();
@@ -125,6 +156,9 @@ public class MusicPlayer {
         }
     }
 
+    /**
+     * Unpauses player
+     */
     public void unpausePlayer() {
         mediaPlayer.start();
     }

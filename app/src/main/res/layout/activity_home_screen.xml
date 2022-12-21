@@ -21,6 +21,7 @@
             android:layout_height="50dp"
             android:id="@+id/greetingsTextView"
             android:text="       Hello, "
+            android:fontFamily="@font/futura_pt_book"
             android:textSize="22sp"
             android:gravity="center_vertical"
             android:textColor="@color/white"
@@ -35,6 +36,7 @@
             android:textSize="18sp"
             android:visibility="invisible"
             android:text="      PartyMode is ON! \n      Your code is: "
+            android:fontFamily="@font/futura_pt_book"
             />
 
         <androidx.cardview.widget.CardView

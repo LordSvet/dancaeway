@@ -24,6 +24,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="DANCÆWAY"
+      android:fontFamily="@font/futura_pt_book"
       android:textColor="@color/white"
       android:textSize="40sp"
       app:layout_constraintBottom_toBottomOf="parent"

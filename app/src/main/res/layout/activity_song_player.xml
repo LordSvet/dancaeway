@@ -19,40 +19,64 @@
         app:srcCompat="@drawable/logo_icon" />
 
     <ImageView
-        android:id="@+id/previousSong"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/shuffleButton"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintHorizontal_bias="0.031"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        app:layout_constraintVertical_bias="0.052"
+        app:layout_constraintVertical_bias="0.04"
+        app:srcCompat="@drawable/shuffle" />
+
+    <ImageView
+        android:id="@+id/previousSong"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.239"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/previous_song_button" />
 
     <ImageView
         android:id="@+id/pausePlay"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        app:layout_constraintVertical_bias="0.052"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/pause_button" />
 
     <ImageView
         android:id="@+id/nextSong"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintHorizontal_bias="0.713"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        app:layout_constraintVertical_bias="0.052"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/next_song_button" />
+
+    <ImageView
+        android:id="@+id/loopButton"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.895"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.039"
+        app:srcCompat="@drawable/loop_button" />
 
     <ImageView
         android:id="@+id/profileButton"
@@ -72,20 +96,21 @@
         android:layout_width="219dp"
         android:layout_height="26dp"
         android:text="Coming Next ..."
-        android:textColor="#86DD89"
+        android:fontFamily="@font/futura_pt_book"
+        android:textColor="#FFBEF5"
         android:textSize="3mm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.721" />
+        app:layout_constraintVertical_bias="0.71" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="409dp"
         android:layout_height="1dp"
-        android:background="#86DD89"
+        android:background="#FFBEF5"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,6 +125,7 @@
         android:layout_height="82dp"
         android:paddingLeft="30dp"
         android:textColor="@color/secondary_pink"
+        android:fontFamily="@font/futura_pt_book"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +143,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/secondary_pink"
+        android:fontFamily="@font/futura_pt_book"
         android:textSize="50sp"
+        android:textStyle="bold"
         android:paddingStart="30dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
@@ -154,11 +182,12 @@
         android:id="@+id/seekbarStart"
         android:layout_width="40dp"
         android:layout_height="39dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:gravity="center_vertical"
         android:text="00:00"
         android:textColor="@color/white"
+        android:fontFamily="@font/futura_pt_book"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/songTittle" />
 
@@ -170,8 +199,36 @@
         android:layout_marginTop="40dp"
         android:gravity="start|center_vertical"
         android:textColor="@color/white"
+        android:fontFamily="@font/futura_pt_book"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/songTittle" />
+
+    <ImageView
+        android:id="@+id/upVoteButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.787"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.863"
+        app:srcCompat="@drawable/upvote_emoji" />
+
+    <ImageView
+        android:id="@+id/downVoteButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.863"
+        app:srcCompat="@drawable/downvote_emoji" />
+
+
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,10 @@ package com.example.dancway.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +41,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private UserController userController;
     private Button signGoogle;
 
+    Animation button_scale_up, button_scale_down;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +64,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(LoginActivity.this, ModeSelectionActivity.class));
         }
 
-
         userController = UserController.getInstance(this);
 
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
         // making Register text clickable and moving from login screen back to register activity
         signup = (TextView) findViewById(R.id.signup);
+
+
+
+        /**
+        /**
+         * Implement button animation
+
+
+        button_scale_up = AnimationUtils.loadAnimation(this, R.anim.button_scale_up);
+        button_scale_down = AnimationUtils.loadAnimation(this, R.anim.button_scale_down);
+
+        signIn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction()==MotionEvent.ACTION_DOWN) {
+                    signIn.startAnimation(button_scale_down);
+                } else if (motionEvent.getAction()==MotionEvent.ACTION_UP)
+                    signIn.startAnimation(button_scale_up);
+
+                return true;
+            }
+            }
+        );
+
+         */
 
         /**
          * When sign up button is clicked, RegisterActivity is called
@@ -78,9 +108,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+
         signIn = (Button) findViewById(R.id.signIn);
         signIn.setOnClickListener(this);
-
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
 
         /**

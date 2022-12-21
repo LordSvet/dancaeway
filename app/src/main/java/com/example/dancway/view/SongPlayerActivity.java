@@ -22,16 +22,12 @@ import com.example.dancway.model.Song;
 public class SongPlayerActivity extends AppCompatActivity {
 
     MusicPlayerControllerSingleton musicPlayerController;
-    ImageView profileButton;
-    TextView artistName;
-    TextView songName;
-    TextView seekbarEnd;
+    ImageView profileButton, upVoteButton, downVoteButton;
+    ImageView previousSong, pausePlay, nextSong;
+    TextView artistName, songName, seekbarEnd;
     SeekBar seekBar;
     Handler handler = new Handler();
     Runnable runnable;
-    ImageView previousSong;
-    ImageView pausePlay;
-    ImageView nextSong;
     int songPosition;
     Song currentSong;
 
@@ -47,6 +43,8 @@ public class SongPlayerActivity extends AppCompatActivity {
         previousSong = findViewById(R.id.previousSong);
         nextSong = findViewById(R.id.nextSong);
         pausePlay = findViewById(R.id.pausePlay);
+        upVoteButton =findViewById(R.id.upVoteButton);
+        downVoteButton= findViewById(R.id.downVoteButton);
         musicPlayerController = MusicPlayerControllerSingleton.getInstance();
 
 
@@ -58,6 +56,25 @@ public class SongPlayerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        upVoteButton = (ImageView) findViewById(R.id.upVoteButton);
+        upVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SongPlayerActivity.this, UserProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        downVoteButton = (ImageView) findViewById(R.id.downVoteButton);
+        downVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SongPlayerActivity.this, UserProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         previousSong.setOnClickListener(new View.OnClickListener() {
             @Override

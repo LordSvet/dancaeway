@@ -1,21 +1,29 @@
 package com.example.dancway.controller;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.dancway.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -27,6 +35,8 @@ public class UserController {
     private Activity context;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private FirebaseFirestore fStore;
+    private String userID;
 
     /**
      * Instance Reference
@@ -36,6 +46,7 @@ public class UserController {
     private UserController(Activity context){
 
         auth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         this.context = context;
         // Setup storage
         sharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE);
@@ -90,7 +101,22 @@ public class UserController {
                         if(task.isSuccessful()) {
                             user = User.getCurrentUser(auth.getCurrentUser(), username);
                             Toast.makeText(context, "User registered successfully", Toast.LENGTH_SHORT).show();
-                            
+
+                            /*
+                            Here the user is stored in the Cloud Firestore
+                            Only email, userID and username are stored there, under the collection "users"
+                             */
+                            userID = auth.getCurrentUser().getUid();
+                            DocumentReference documentReference = fStore.collection("users").document(userID);
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("uName",username);
+                            user.put("email", email);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d(TAG, "onSuccess: User profile is created for" + userID);
+                                }
+                            });
 							// On success store in permanent Storage
                             editor.putString("email",email);
                             editor.putString("pass",password);

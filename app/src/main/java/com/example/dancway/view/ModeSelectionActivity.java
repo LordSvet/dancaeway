@@ -12,6 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dancway.R;
 import com.example.dancway.controller.SongsListAdapter;
 import com.example.dancway.controller.SongsListController;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 /**
  * This activity is to change to the mode, party mode or solo mode
@@ -19,12 +25,36 @@ import com.example.dancway.controller.SongsListController;
 public class ModeSelectionActivity extends AppCompatActivity {
 
    ImageView partyMode, soloMode;
-   TextView partyModeSelection, soloModeSelection;
+   TextView partyModeSelection, soloModeSelection, welcomeUsername;
+   FirebaseAuth fAuth;
+   FirebaseFirestore fStore;
+   String userID;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_selection);
+
+        /*
+         Those are used to connect with the Cloud Firestore and check the UserID in order to get the correct username
+         */
+        welcomeUsername = findViewById(R.id.welcomeUsername);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+
+        /*
+        Gets the username from the Firestore and displays as the Greeting msg
+         */
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                welcomeUsername.setText("Welcome " + value.getString("uName"));
+
+            }
+        });
+
 
         partyMode = (ImageView) findViewById(R.id.party_illustration);
         partyMode.setOnClickListener(new View.OnClickListener() {

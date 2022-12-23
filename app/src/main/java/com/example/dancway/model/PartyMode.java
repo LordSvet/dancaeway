@@ -14,8 +14,10 @@ import java.util.Objects;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * This class holds information about partymode
@@ -26,6 +28,7 @@ public class PartyMode extends Session {    // Will implement online session lat
     private List<String> connectedUsers;
     private ArrayList<Song> songList;
     private SongQueue songQueue;
+    private boolean isCodeGeneratorExist = false;
 
 
     //Constructor for if user is a guest
@@ -186,4 +189,29 @@ public class PartyMode extends Session {    // Will implement online session lat
         connectedUsers.remove(user);
     }
 
+    private boolean isPartyCodeExists(String pCode){
+        DatabaseReference sessionRoot = FirebaseDatabase.getInstance().getReference().child("Session");
+        Log.w("TAG1", "checking for party code");
+
+        sessionRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    String childKey = childSnapshot.getKey();
+                    if(childKey == pCode ){
+                        isCodeGeneratorExist = true;
+                    }
+                    Log.w("TAG1", "CHILD OF SESSION "+childKey);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG1", "Failed to read value.", error.toException());
+            }
+        });
+        return isCodeGeneratorExist;
+    }
 }

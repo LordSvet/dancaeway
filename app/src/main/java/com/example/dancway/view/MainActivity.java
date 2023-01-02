@@ -1,32 +1,25 @@
 package com.example.dancway.view;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.util.Log;
 
 import com.example.dancway.R;
 import com.example.dancway.controller.RecyclerViewInterface;
 import com.example.dancway.controller.SongsListAdapter;
 import com.example.dancway.controller.SongsListController;
-import com.example.dancway.service.MusicService;
 
 /**
  * This is the main activity
  */
-public class MainActivity extends AppCompatActivity implements RecyclerViewInterface, ServiceConnection {
+public class MainActivity extends AppCompatActivity implements RecyclerViewInterface {
     RecyclerView songsListView;
     SongsListAdapter listAdapter;
     Thread populateSongsThread;
-    MusicService musicService;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +29,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        //--- Bind Music Service ---
-        Intent intent = new Intent(this, MusicService.class);
-        bindService(intent, this, BIND_AUTO_CREATE);
-        //--- End Bind Music Service ---
 
         // Fetch songs list from database in separate thread
         // there are too many thread creation in the App --> A better implementation could exist?!
@@ -80,24 +68,5 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         Intent songPlayerIntent = new Intent(MainActivity.this, SongPlayerActivity.class);
         songPlayerIntent.putExtra("pos", position);
         MainActivity.this.startActivity(songPlayerIntent);
-    }
-
-    @Override
-    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
-        musicService = binder.getService();
-        Log.d("Connected", musicService + "");
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
-        musicService = null;
-        Log.d("Disconnected", musicService + "");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unbindService(this);
     }
 }

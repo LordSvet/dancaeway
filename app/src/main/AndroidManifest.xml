@@ -12,6 +12,7 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo_icon"
+        android:name=".service.ApplicationClass"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
@@ -57,6 +58,15 @@
             android:name=".view.JoinPartyActivity"
             android:exported="false" />
 
+        <service android:name=".service.MusicService" android:enabled="true" />
+        <receiver android:name=".service.NotificationReceiver" android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="NEXT"/>
+                <action android:name="PLAY"/>
+                <action android:name="PREV"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

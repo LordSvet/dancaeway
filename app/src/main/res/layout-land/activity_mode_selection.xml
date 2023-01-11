@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_purple" >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="113dp"
+        android:layout_height="86dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.156"
+        app:srcCompat="@drawable/logo_icon" />
+
+    <TextView
+        android:id="@+id/welcomeUsername"
+        android:layout_width="421dp"
+        android:layout_height="49dp"
+        android:fontFamily="@font/futura_pt_book"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="Welcome! (Insert username here)"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.751"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.14" />
+
+    <ImageView
+        android:id="@+id/solo_illustration"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.76"
+        app:layout_constraintStart_toEndOf="@+id/party_illustration"
+        app:layout_constraintTop_toBottomOf="@+id/pleaseChoose"
+        app:layout_constraintVertical_bias="0.215"
+        app:srcCompat="@drawable/solo_illustration" />
+
+    <ImageView
+        android:id="@+id/party_illustration"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:outlineAmbientShadowColor="@color/sunglow_yellow"
+        android:outlineSpotShadowColor="@color/sunglow_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pleaseChoose"
+        app:layout_constraintVertical_bias="0.129"
+        app:srcCompat="@drawable/party_mode" />
+
+    <TextView
+        android:id="@+id/pleaseChoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/futura_pt_book"
+        android:text="Please choose"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.643"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeUsername"
+        app:layout_constraintVertical_bias="0.135" />
+
+    <TextView
+        android:id="@+id/partyMode"
+        android:layout_width="144dp"
+        android:layout_height="36dp"
+        android:fontFamily="@font/futura_pt_book"
+        android:text="Party Mode"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.904" />
+
+    <TextView
+        android:id="@+id/soloMode"
+        android:layout_width="152dp"
+        android:layout_height="34dp"
+        android:fontFamily="@font/futura_pt_book"
+        android:text="Solo mode"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.901"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/solo_illustration"
+        app:layout_constraintVertical_bias="0.333" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

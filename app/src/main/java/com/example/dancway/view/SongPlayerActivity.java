@@ -38,7 +38,7 @@ import com.example.dancway.service.NotificationReceiver;
  * This is song player activity
  */
 public class SongPlayerActivity extends AppCompatActivity implements ServiceConnection {
-
+    public static final String CLASS_TAG = SongPlayerActivity.class.getName();
     MusicPlayerControllerSingleton musicPlayerController;
     ImageView profileButton, upVoteButton, downVoteButton;
     ImageView previousSong, pausePlay, nextSong;
@@ -287,13 +287,13 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
         musicService = binder.getService();
         musicService.setCallBack(musicPlayerController, SongPlayerActivity.this);
-        Log.d("Connected", musicService + "");
+        Log.d(CLASS_TAG, "MusicService connected!");
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         musicService = null;
-        Log.d("Disconnected", musicService + "");
+        Log.d(CLASS_TAG, "MusicService disconnected!");
     }
 
     @Override

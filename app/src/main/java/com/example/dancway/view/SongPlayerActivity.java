@@ -23,25 +23,18 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dancway.R;
 import com.example.dancway.controller.MusicPlayerControllerSingleton;
-import com.example.dancway.controller.SongsListController;
 import com.example.dancway.controller.SongsQueueAdapter;
 import com.example.dancway.model.Song;
 import com.example.dancway.model.SongsList;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,7 +86,7 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
             public void onClick(View view) {
                 Intent intent = new Intent(SongPlayerActivity.this, UserProfileActivity.class);
                 startActivity(intent);
-            }
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);            }
         });
 
 

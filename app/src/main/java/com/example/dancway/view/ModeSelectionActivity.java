@@ -11,8 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
-import com.example.dancway.controller.SongsListAdapter;
-import com.example.dancway.controller.SongsListController;
 import com.example.dancway.model.Song;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -22,7 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This activity is to change to the mode, party mode or solo mode
@@ -77,6 +74,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent (ModeSelectionActivity.this, JoinPartyActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
 
             }
         });
@@ -87,6 +85,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ModeSelectionActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_right);
             }
         });
 
@@ -96,6 +95,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ModeSelectionActivity.this, JoinPartyActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_right);
             }
         });
         soloModeSelection = (TextView) findViewById(R.id.soloMode);
@@ -104,6 +104,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ModeSelectionActivity.this, MainActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_right);
             }
         });
 

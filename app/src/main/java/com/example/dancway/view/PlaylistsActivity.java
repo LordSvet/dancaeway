@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +15,6 @@ import android.widget.ListView;
 
 import com.example.dancway.R;
 import com.example.dancway.model.Playlists;
-import com.example.dancway.model.SinglePlaylist;
-
-import java.util.ArrayList;
 
 
 public class PlaylistsActivity extends AppCompatActivity {
@@ -51,6 +47,7 @@ public class PlaylistsActivity extends AppCompatActivity {
                 intent.putExtra("position", i);
                 intent.putExtra("name",Playlists.getInstance().getPlaylistsList().get(i).getName());
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
             }
         });
     }

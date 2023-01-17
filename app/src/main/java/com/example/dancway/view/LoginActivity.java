@@ -3,10 +3,8 @@ package com.example.dancway.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -121,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, ChangePasswordActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
             }
         });
 

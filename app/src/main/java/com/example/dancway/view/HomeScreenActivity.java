@@ -8,21 +8,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.dancway.R;
-import com.example.dancway.model.Song;
-import com.example.dancway.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is the homescreen activity
@@ -86,6 +80,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent nextActivity = new Intent(HomeScreenActivity.this, UserProfileActivity.class);
                 startActivity(nextActivity);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_right);
             }
         });
         songsListCard.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +88,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent nextActivity = new Intent(HomeScreenActivity.this, MainActivity.class);
                 startActivity(nextActivity);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_right);
             }
         });
       playlistsCard.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +96,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent nextActivity = new Intent(HomeScreenActivity.this, PlaylistsActivity.class);
                 startActivity(nextActivity);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_right);
             }
         });
 

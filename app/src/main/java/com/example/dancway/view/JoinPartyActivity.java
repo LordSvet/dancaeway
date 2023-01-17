@@ -1,6 +1,5 @@
 package com.example.dancway.view;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,17 +11,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
-import com.example.dancway.controller.SongsListController;
 import com.example.dancway.model.PartyGuest;
 import com.example.dancway.model.PartyMaster;
 import com.example.dancway.model.PartyMode;
 import com.example.dancway.model.SessionCodeGen;
-import com.example.dancway.model.Song;
 import com.example.dancway.model.SongQueue;
 import com.example.dancway.model.User;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * This is the join party activity
@@ -57,6 +53,7 @@ public class JoinPartyActivity extends AppCompatActivity {
                 intent.putExtra("SeshCode",partyMode.getCodeGenerator());
                 intent.putExtra("PartyModeEnabled",true);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
             }
         });
 
@@ -74,6 +71,7 @@ public class JoinPartyActivity extends AppCompatActivity {
                     intent.putExtra("SeshCode", inputBar.getText().toString().toUpperCase());
                     intent.putExtra("PartyModeEnabled",true);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
                 }
             }
         });

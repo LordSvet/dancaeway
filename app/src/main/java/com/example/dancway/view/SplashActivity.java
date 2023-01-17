@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         logo = (ImageView)findViewById(R.id.logo_rotation);
         rotateAnimation();
 
-        // start sctivity after 2500 millisec and goes from splash to register activity
+        // start activity after 2500 millisec and goes from splash to register activity
         Thread thread = new Thread() {
             @Override
             public void run() {

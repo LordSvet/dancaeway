@@ -7,18 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
 import com.example.dancway.controller.UserController;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Pattern;
 
@@ -65,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onClick(View view) {
                 Intent intent = new Intent ( RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
             }
         });
     }
@@ -118,6 +113,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (view.getId() == R.id.registerUser) {
             userController.register(editTextEmail.getText().toString(), editTextPassword.getText().toString(), editTextRepeatPassword.getText().toString(), editTextFullName.getText().toString());
             startActivity(new Intent(this, ModeSelectionActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
         }
     }
 }

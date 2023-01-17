@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
+import com.example.dancway.controller.SongsListController;
 
 /**
  * This is the splash activity of the logo screen
@@ -34,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    SongsListController.populateSongs();//TODO: MAKE PRETTIER AND REMOVE FROM MAIN ACTIVITY
                     sleep(2500);
                 }catch (Exception e) {
                     e.printStackTrace();

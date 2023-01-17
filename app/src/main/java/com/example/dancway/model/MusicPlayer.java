@@ -12,6 +12,8 @@ import java.io.IOException;
 public class MusicPlayer {
     private MediaPlayer mediaPlayer;
     private Song currentSong;
+    private boolean isPaused;
+    private boolean isPrepared;
 
     /**
      * Constructor initializes mediaPlayer if it is null and sets it up for Music streaming.
@@ -25,6 +27,8 @@ public class MusicPlayer {
                             .setUsage(AudioAttributes.USAGE_MEDIA)
                             .build()
             );
+            isPaused = false;
+            isPrepared = false;
         }
     }
 
@@ -58,12 +62,24 @@ public class MusicPlayer {
 
     /**
      *Returns current song
-     * @return returns the current song if it is not null
+     * @return returns the current song
      */
     public Song getCurrentSong(){
-        if(currentSong != null)
         return currentSong;
-        return new Song("",69,new Artist("BabaTi"),""); // TODO: Change
+    }
+
+    /**
+     * Loops current song
+     */
+    public void loopSong(){
+        mediaPlayer.setLooping(true);
+    }
+
+    /**
+     * Stops loop
+     */
+    public void stopLoop(){
+        mediaPlayer.setLooping(false);
     }
 
     /**
@@ -92,6 +108,8 @@ public class MusicPlayer {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(newSong.getUrl());
             currentSong = newSong;
+            isPaused = false;
+            isPrepared = false;
         } catch (IOException e) {
             Log.i("Error: ", e.getMessage());
         }
@@ -112,6 +130,8 @@ public class MusicPlayer {
             }
             currentSong = song;
             preparePlayerConc();
+            isPaused = false;
+
         } catch (IOException e) {
             Log.i("Error: ", e.getMessage());
         }
@@ -121,6 +141,8 @@ public class MusicPlayer {
      */
     public void play() {     //plays song
         mediaPlayer.start();
+        isPaused = false;
+        isPrepared = true;
     }
 
     /**
@@ -129,6 +151,7 @@ public class MusicPlayer {
     public void pause() {   // pauses song
         if (mediaPlayer != null) {
             mediaPlayer.pause();
+            isPaused = true;
         }
     }
 
@@ -137,6 +160,7 @@ public class MusicPlayer {
      */
     public void reInitialize(){
         mediaPlayer.reset();
+        isPrepared = false;
     }
 
     /**
@@ -144,6 +168,7 @@ public class MusicPlayer {
      */
     public void stopPlayer() {     //calls releasePlayer
         releasePlayer();
+        isPrepared = false;
     }
 
     /**
@@ -160,7 +185,19 @@ public class MusicPlayer {
      * Unpauses player
      */
     public void unpausePlayer() {
-        mediaPlayer.start();
+        if(mediaPlayer != null) {
+            mediaPlayer.start();
+            isPaused = false;
+        }
     }
-    
+
+    public void setPaused(boolean pause){
+        isPaused = pause;
+    }
+
+    public boolean isPaused(){return isPaused;}
+
+    public boolean isPrepared() {
+        return isPrepared;
+    }
 }

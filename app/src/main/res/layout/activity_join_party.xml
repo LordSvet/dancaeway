@@ -20,7 +20,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.191" />
+        app:layout_constraintVertical_bias="0.191"
+        />
 
     <EditText
         android:id="@+id/partyCode"
@@ -38,7 +39,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.384"
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        android:textColorHint="@color/input_grey"/>
 
     <Button
         android:id="@+id/joinButton"
@@ -49,7 +51,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.499"
+        android:textColor="@color/white"
+        />
 
     <TextView
         android:id="@+id/or"

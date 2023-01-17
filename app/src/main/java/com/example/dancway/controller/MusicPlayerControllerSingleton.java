@@ -36,6 +36,16 @@ public class MusicPlayerControllerSingleton {
     }
 
     /**
+     * Loops or disables loop on song
+     * @param loop stops loop if false, starts loop if true
+     */
+    public void setLoop(boolean loop){
+        if(loop){
+            musicPlayer.loopSong();
+        }else musicPlayer.stopLoop();
+    }
+
+    /**
      * @return the current song
      */
     public Song getSong(){
@@ -96,6 +106,10 @@ public class MusicPlayerControllerSingleton {
     public void seekTo(int progress){
         musicPlayer.changePosition(progress);
     }
+
+    public boolean isPaused(){return musicPlayer.isPaused();}
+
+    public boolean isPrepared(){return musicPlayer.isPrepared();}
 
 
 

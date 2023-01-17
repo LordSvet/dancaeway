@@ -17,10 +17,11 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.72"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/login_text"
         app:layout_constraintTop_toBottomOf="@+id/repeat_password"
-        app:layout_constraintVertical_bias="0.772" />
+        app:layout_constraintVertical_bias="0.772"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/register_banner"
@@ -53,7 +54,8 @@
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_banner" />
+        app:layout_constraintTop_toBottomOf="@+id/register_banner"
+        android:textColorHint="@color/input_grey"/>
 
 
     <EditText
@@ -70,7 +72,8 @@
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:textColorHint="@color/input_grey"/>
 
     <EditText
         android:id="@+id/password"
@@ -86,7 +89,8 @@
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        android:textColorHint="@color/input_grey"/>
 
     <EditText
         android:id="@+id/repeat_password"
@@ -102,7 +106,9 @@
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        android:textColorHint="@color/input_grey"
+        />
 
     <Button
         android:id="@+id/registerUser"

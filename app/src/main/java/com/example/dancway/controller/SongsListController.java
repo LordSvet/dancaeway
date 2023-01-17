@@ -14,6 +14,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 /**
  * The class that controls songs which reside in SongsListRepository
  */
@@ -23,10 +25,9 @@ public class SongsListController {
 
     /**
      * Constructor
-     * @param context takes in current activity context as argument
+     *
      */
-    public SongsListController(Activity context){
-        this.context = context;
+    public SongsListController() {
     }
 
     /**
@@ -37,18 +38,8 @@ public class SongsListController {
     }
 
     /**
-     * @return returns the context
-     */
-    public Activity getContext(){return context;}
-
-    /**
-     * Sets new context
-     * @param newContext new context to be set
-     */
-    public void setContext(Activity newContext){context = newContext;}
-
-    /**
      * Sets new songs list
+     *
      * @param newList new list to be set
      */
     public void setSongsList(SongsList newList) {
@@ -64,17 +55,52 @@ public class SongsListController {
         databaseRoot.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                for(DataSnapshot it : dataSnapshot.getChildren()){  // On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
-                    Song temp = new Song(String.valueOf(it.child("name").getValue()),     (long)it.child("duration").getValue(),
-                            new Artist(String.valueOf(it.child("artist").getValue())),  String.valueOf(it.child("url").getValue()));
+                for (DataSnapshot it : dataSnapshot.getChildren()) {  // On success the JSON array is stored in dataSnapshot. Each JSON object is in iterator it
+                    Song temp = new Song(String.valueOf(it.child("name").getValue()), (long) it.child("duration").getValue(),
+                            new Artist(String.valueOf(it.child("artist").getValue())), String.valueOf(it.child("url").getValue()),
+                            String.valueOf(it.child("image-url").getValue()));
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            temp.setBitmap(temp.getImageURL());
+                        }
+                    });
+                    thread.start();
                     songsList.addSong(temp);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {   // On failure logs the error message on Logcat
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.i("Error: ",e.getMessage());
+                Log.i("Error: ", e.getMessage());
             }
         });
     }
+
+    public static int getIndexOfSong(String songTitle) {
+        ArrayList<Song> list = getSongsList().getArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getTitle().equals(songTitle)) {
+                return i;
+            }
+        }
+        return -1;  //Means song is not in list
+    }
+
+    /**
+     * @return returns the context
+     */
+    public Activity getContext() {
+        return context;
+    }
+
+    /**
+     * Sets new context
+     *
+     * @param newContext new context to be set
+     */
+    public void setContext(Activity newContext) {
+        context = newContext;
+    }
+
 }

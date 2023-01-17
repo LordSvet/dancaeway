@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.dancway.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,7 +103,7 @@ public class UserController {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            user = User.getCurrentUser(auth.getCurrentUser(), username);
+                            user = User.getCurrentUser(auth.getCurrentUser(), username, auth.getCurrentUser().getUid());
                             Toast.makeText(context, "User registered successfully", Toast.LENGTH_SHORT).show();
 
                             /*
@@ -157,7 +161,7 @@ public class UserController {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    user = User.getCurrentUser(auth.getCurrentUser(), email); //Stores FirebaseUser in user if its not null
+                    user = User.getCurrentUser(auth.getCurrentUser(), email, auth.getCurrentUser().getUid()); //Stores FirebaseUser in user if its not null
                     Toast.makeText(context, "User logged in", Toast.LENGTH_SHORT).show();
                     
 					// Permanent Storage
@@ -165,11 +169,20 @@ public class UserController {
                     editor.putString("pass",password);
                     editor.putBoolean("loggedin",true);
                     editor.apply();
+
+                    DocumentReference documentReference = fStore.collection("users").document(user.getUid());      //Sets the username from the database
+                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            user.setUsername(value.getString("uName"));
+                        }
+                    });
                 } else {
                     Toast.makeText(context, "Login Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     // Remove permanent Login Details

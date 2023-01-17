@@ -115,15 +115,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-            switch (view.getId()) {
-                case R.id.register_banner:
-                    startActivity(new Intent(this, MainActivity.class));
-                    break;
-                case R.id.registerUser:
-                    userController.register(editTextEmail.getText().toString(), editTextPassword.getText().toString(), editTextRepeatPassword.getText().toString(),  editTextFullName.getText().toString());
-                    break;
-
-            }
+        if (view.getId() == R.id.registerUser) {
+            userController.register(editTextEmail.getText().toString(), editTextPassword.getText().toString(), editTextRepeatPassword.getText().toString(), editTextFullName.getText().toString());
+            startActivity(new Intent(this, ModeSelectionActivity.class));
+        }
     }
 }
 

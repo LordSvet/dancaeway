@@ -46,7 +46,7 @@ public class LocalSongs {
                 long duration = iDuration < 0 ? 0 : Long.parseLong(cursor.getString(iDuration));
 
                 // Save to audioList
-                songs.add(new Song(title, duration, new Artist(artist), data));
+                songs.add(new Song(title, duration, new Artist(artist), data, "https://play-lh.googleusercontent.com/QovZ-E3Uxm4EvjacN-Cv1LnjEv-x5SqFFB5BbhGIwXI_KorjFhEHahRZcXFC6P40Xg"));
             }
         }
     }

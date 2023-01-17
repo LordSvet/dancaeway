@@ -1,5 +1,6 @@
 package com.example.dancway.view;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +12,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
+import com.example.dancway.controller.SongsListController;
+import com.example.dancway.model.PartyGuest;
+import com.example.dancway.model.PartyMaster;
 import com.example.dancway.model.PartyMode;
-import com.example.dancway.model.PartyRole;
+import com.example.dancway.model.SessionCodeGen;
+import com.example.dancway.model.Song;
+import com.example.dancway.model.SongQueue;
 import com.example.dancway.model.User;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -27,6 +34,7 @@ public class JoinPartyActivity extends AppCompatActivity {
     TextView title;
     EditText inputBar;
     PartyMode partyMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +50,9 @@ public class JoinPartyActivity extends AppCompatActivity {
         becomeMaster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentUser.setPartyRole(PartyRole.MASTER);
-                partyMode = new PartyMode(User.getCurrentUser());
+//                currentUser.setPartyRole(PartyRole.MASTER); REMOVE
+                String seshCode = SessionCodeGen.getCode();
+                partyMode = new PartyMaster(seshCode,new ArrayList<>(),new ArrayList<>(), new SongQueue(50));   //TODO: TEST
                 Intent intent = new Intent(JoinPartyActivity.this, HomeScreenActivity.class);
                 intent.putExtra("SeshCode",partyMode.getCodeGenerator());
                 intent.putExtra("PartyModeEnabled",true);
@@ -60,8 +69,7 @@ public class JoinPartyActivity extends AppCompatActivity {
                 if(inputBar.getText().toString().length() != 5){
                     Toast.makeText(JoinPartyActivity.this, "Invalid Code Entered", Toast.LENGTH_SHORT).show();
                 }else{
-                    User.getCurrentUser().setPartyRole(PartyRole.GUEST);
-                    partyMode = new PartyMode(User.getCurrentUser(), inputBar.getText().toString());
+                    partyMode = new PartyGuest(inputBar.getText().toString().toUpperCase(),new ArrayList<>(),new ArrayList<>(), new SongQueue(50)); //TODO: TEST
                     Intent intent = new Intent(JoinPartyActivity.this, HomeScreenActivity.class);
                     intent.putExtra("SeshCode", inputBar.getText().toString().toUpperCase());
                     intent.putExtra("PartyModeEnabled",true);

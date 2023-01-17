@@ -9,18 +9,26 @@ public class User {
 
     private String username;
     private FirebaseUser firebaseUser;
-    private PartyRole partyRole;
     private static User currentUser;
+    private String uid;
+
+    //This is only for objects that contain username and user ID for representing on the list of users during PartyMode
+    public User(String username, String uid){
+        this.username = username;
+        this.uid = uid;
+    }
 
     /**
      * Constructor
      * @param firebaseUser holds a user from Google Firebase
      * @param username holds username
      */
-    private User(FirebaseUser firebaseUser, String username){
+    private User(FirebaseUser firebaseUser, String username, String uid){
         this.firebaseUser = firebaseUser;
         this.username = username;
+        this.uid = uid;
     }
+
 
     /**
      * @return the current user
@@ -34,18 +42,18 @@ public class User {
      * @param username of the user
      * @return the current user
      */
-    public static synchronized User getCurrentUser(FirebaseUser user, String username){
+    public static synchronized User getCurrentUser(FirebaseUser user, String username, String uid){
         if(currentUser == null){
-            currentUser = new User(user, username);
+            currentUser = new User(user, username, uid);
         }
         return currentUser;
     }
 
-    public void setPartyRole(PartyRole role){
-        partyRole = role;
+    public void setUid(String uid){
+        this.uid = uid;
     }
 
-    public PartyRole getPartyRole(){ return partyRole;}
+    public String getUid(){return uid;}
 
     /**
      * Gets username

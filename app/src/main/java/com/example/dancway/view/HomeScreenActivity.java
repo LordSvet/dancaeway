@@ -1,5 +1,6 @@
 package com.example.dancway.view;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -11,7 +12,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.dancway.R;
+import com.example.dancway.model.Song;
 import com.example.dancway.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the homescreen activity
@@ -23,11 +34,23 @@ public class HomeScreenActivity extends AppCompatActivity {
     CardView songsListCard;
     CardView playlistsCard;
     CardView settingsCard;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userID;
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
 
         Intent intent = getIntent();
 
@@ -38,9 +61,19 @@ public class HomeScreenActivity extends AppCompatActivity {
         playlistsCard = findViewById(R.id.playlistsCard);
         settingsCard = findViewById(R.id.settingsCard);
 
-        if(User.getCurrentUser().getUsername()!=null){
-            greetings.append(User.getCurrentUser().getUsername());
-        }
+        //Add username to greetings here
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                greetings.setText("Hello, " + value.getString("uName"));
+
+            }
+        });
 
         if(intent.getBooleanExtra("PartyModeEnabled", false)){
             partyMode.append(intent.getStringExtra("SeshCode"));
@@ -62,12 +95,13 @@ public class HomeScreenActivity extends AppCompatActivity {
                 startActivity(nextActivity);
             }
         });
-//      playlistsCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent nextActivity = new Intent(HomeScreenActivity.this, UserProfileActivity.class);
-//            }
-//        });
-        //TODO: SETTINGS AND PLAYLISTS CREATION LATER
+      playlistsCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(HomeScreenActivity.this, PlaylistsActivity.class);
+                startActivity(nextActivity);
+            }
+        });
+
     }
 }

@@ -2,6 +2,7 @@ package com.example.dancway.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,12 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dancway.R;
 import com.example.dancway.controller.SongsListAdapter;
 import com.example.dancway.controller.SongsListController;
+import com.example.dancway.model.Song;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This activity is to change to the mode, party mode or solo mode
@@ -29,11 +34,21 @@ public class ModeSelectionActivity extends AppCompatActivity {
    FirebaseAuth fAuth;
    FirebaseFirestore fStore;
    String userID;
+   public static ArrayList<Song> upcomingSongs; //This will be used to access future queue of songs. I want it initialized early so its here
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_selection);
+
+        try{
+            Thread.sleep(1000);
+        }catch (InterruptedException e){
+            Log.i("Error: ", e.getMessage());
+        }
+
+        upcomingSongs = new ArrayList<>();
+
 
         /*
          Those are used to connect with the Cloud Firestore and check the UserID in order to get the correct username
@@ -69,7 +84,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
         soloMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ModeSelectionActivity.this, MainActivity.class);
+                Intent intent = new Intent(ModeSelectionActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }
         });

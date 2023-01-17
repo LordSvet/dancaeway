@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/queueSheetTextView"
+        android:layout_width="240dp"
+        android:layout_height="64dp"
+        android:gravity="start|center_vertical"
+        android:fontFamily="@font/futura_pt_book"
+        android:textSize="20sp"
+        android:paddingStart="12dp"
+        />
+
+    <ImageButton
+        android:id="@+id/upvoteEmojiButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@+id/queueSheetTextView"
+        android:background="@drawable/upvote_emoji"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <ImageButton
+        android:id="@+id/downvoteEmojiButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@+id/upvoteEmojiButton"
+        android:background="@drawable/downvote_emoji"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:focusable="true"/>
+
+
+</RelativeLayout>

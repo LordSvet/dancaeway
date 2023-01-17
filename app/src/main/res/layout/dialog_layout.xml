@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_purple">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:fontFamily="@font/futura_pt_book"
+        android:textSize="24sp"
+        android:text="Enter new playlist name: "
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:id="@+id/enter_playlist_name"
+        />
+
+    <EditText
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enter_playlist_name"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:fontFamily="@font/futura_pt_book"
+        android:textColor="@color/white"
+        android:id="@+id/edit_text_create_playlist"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_create_playlist"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Create!"
+        android:backgroundTint="@color/sunglow_yellow"
+        android:id="@+id/dialog_create_playlist"
+        />
+
+</RelativeLayout>

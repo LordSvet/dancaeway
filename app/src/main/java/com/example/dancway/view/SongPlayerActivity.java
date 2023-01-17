@@ -1,53 +1,70 @@
 package com.example.dancway.view;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
 import static com.example.dancway.service.ApplicationClass.ACTION_NEXT;
 import static com.example.dancway.service.ApplicationClass.ACTION_PLAY;
 import static com.example.dancway.service.ApplicationClass.ACTION_PREV;
 import static com.example.dancway.service.ApplicationClass.CHANNEL_ID_2;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
+import com.example.dancway.service.MusicService;
+import com.example.dancway.service.NotificationReceiver;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dancway.R;
 import com.example.dancway.controller.MusicPlayerControllerSingleton;
 import com.example.dancway.controller.SongsListController;
+import com.example.dancway.controller.SongsQueueAdapter;
 import com.example.dancway.model.Song;
-import com.example.dancway.service.MusicService;
-import com.example.dancway.service.NotificationReceiver;
+import com.example.dancway.model.SongsList;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This is song player activity
  */
 public class SongPlayerActivity extends AppCompatActivity implements ServiceConnection {
+
     public static final String CLASS_TAG = SongPlayerActivity.class.getName();
+
     MusicPlayerControllerSingleton musicPlayerController;
-    ImageView profileButton, upVoteButton, downVoteButton;
+    ImageView profileButton;
     ImageView previousSong, pausePlay, nextSong;
-    TextView artistName, songName, seekbarEnd;
+    TextView artistName, songName, seekbarEnd, seekbarStart;
     SeekBar seekBar;
     Handler handler = new Handler();
     Runnable runnable;
     int songPosition;
     Song currentSong;
+    ListView comingNext;
+    SongsQueueAdapter adapter;
+    List<Song> upcomingNext;
+
     MusicService musicService;
     MediaSessionCompat mediaSession;
 
@@ -56,39 +73,22 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_player);
 
+        mediaSession = new MediaSessionCompat(this, "PlayerAudio");
+
         artistName = findViewById(R.id.artistName);
         songName = findViewById(R.id.songTittle);
         seekBar = findViewById(R.id.seekBar);
         seekbarEnd = findViewById(R.id.seekbarEnd);
+        seekbarStart = findViewById(R.id.seekbarStart);
         previousSong = findViewById(R.id.previousSong);
         nextSong = findViewById(R.id.nextSong);
         pausePlay = findViewById(R.id.pausePlay);
-        upVoteButton =findViewById(R.id.upVoteButton);
-        downVoteButton= findViewById(R.id.downVoteButton);
+        comingNext = findViewById(R.id.coming_next_preview);
         musicPlayerController = MusicPlayerControllerSingleton.getInstance();
 
-        mediaSession = new MediaSessionCompat(this, "PlayerAudio");
 
         profileButton = (ImageView) findViewById(R.id.profileButton);
         profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SongPlayerActivity.this, UserProfileActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        upVoteButton = (ImageView) findViewById(R.id.upVoteButton);
-        upVoteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SongPlayerActivity.this, UserProfileActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        downVoteButton = (ImageView) findViewById(R.id.downVoteButton);
-        downVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SongPlayerActivity.this, UserProfileActivity.class);
@@ -118,35 +118,52 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
             }
         });
 
+        //Position of selected song from list is put in intent Extras under name "pos"
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            songPosition = extras.getInt("pos", -1);
-            if (songPosition != -1) {
-                currentSong = SongsListController.getSongsList().getSongAt(songPosition);
+            songPosition = extras.getInt("pos", 0);
+            currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
 
-                updateViews(currentSong);
+            updateViews(currentSong);
 
-                musicPlayerController.playSong(currentSong);
-                showNotification(R.drawable.pause_button);
-                updateSeekbar();
-
-                musicPlayerController.getMusicPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        songPosition++;
-                        currentSong = SongsListController.getSongsList().getSongAt(songPosition);
-                        musicPlayerController.changeSong(currentSong);
-                        updateViews(currentSong);
-                        updateSeekbar();
-
-                    }
-                });
+            if (musicPlayerController.isPaused()) {       //Added this because if music player gets paused and then user clicks another song it doesnt play it automatically
+                musicPlayerController.unPausePlayer();
             }
+            musicPlayerController.playSong(currentSong);
+            showNotification(R.drawable.pause_button);
+            updateSeekbar();
+
+            musicPlayerController.getMusicPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    songPosition++;
+                    if (songPosition >= ModeSelectionActivity.upcomingSongs.size()) {
+                        songPosition = 0; //If it was last song it goes back around
+                    }
+                    currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
+                    musicPlayerController.changeSong(currentSong);
+                    updateViews(currentSong);
+                    updateSeekbar();
+
+                }
+            });
+
         }
+        int currentSongIndex = SongsList.getIndexOfSongInList(ModeSelectionActivity.upcomingSongs, currentSong.getTitle());
+        if(ModeSelectionActivity.upcomingSongs.size() == 1){
+            currentSongIndex = -1;
+        }
+        upcomingNext = ModeSelectionActivity.upcomingSongs.subList(currentSongIndex+1, ModeSelectionActivity.upcomingSongs.size()-1);
+        adapter = new SongsQueueAdapter(upcomingNext,this);
+        comingNext.setAdapter(adapter);
+
+
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int position, boolean fromUser) {
                 if(fromUser){       //Check is user clicked this or if it was done in the Handler
+                    if(!musicPlayerController.isPrepared()) return;
                     musicPlayerController.seekTo(position*1000);    //No idea why it has to be multiplied by a thousand but its the only way it works
                     seekBar.setProgress(position);
                 }
@@ -164,60 +181,22 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
 
     }
 
-    public void pausePlay() {
-        if(musicPlayerController.getMusicPlayer().isPlaying()){
-            musicPlayerController.pausePlayer();
-            pausePlay.setImageResource(R.drawable.play_button);
-            showNotification(R.drawable.play_button);
-        }else if(!musicPlayerController.getMusicPlayer().isPlaying()){
-            musicPlayerController.unPausePlayer();
-            pausePlay.setImageResource(R.drawable.pause_button);
-            showNotification(R.drawable.pause_button);
-        }
-    }
-
-    /**
-     * Go to next song
-     */
-    public void next() {
-        songPosition ++;
-        if(songPosition >= SongsListController.getSongsList().getSize()){
-            songPosition = 0; //If it was last song it goes back around
-        }
-        currentSong = SongsListController.getSongsList().getSongAt(songPosition);
-        musicPlayerController.changeSong(currentSong);
-        if(musicPlayerController.getMusicPlayer().isPlaying()){
-            showNotification(R.drawable.play_button);
-        }else if(!musicPlayerController.getMusicPlayer().isPlaying()){
-            showNotification(R.drawable.pause_button);
-        }
-        updateViews(currentSong);
-    }
-
-    /**
-     * Go to previous song
-     */
-    public void previous() {
-        songPosition --;
-        if(songPosition < 0){
-            songPosition = SongsListController.getSongsList().getSize()-1; //If it was first song it goes back around
-        }
-        currentSong = SongsListController.getSongsList().getSongAt(songPosition);
-        musicPlayerController.changeSong(currentSong);
-        if(musicPlayerController.getMusicPlayer().isPlaying()){
-            showNotification(R.drawable.play_button);
-        }else if(!musicPlayerController.getMusicPlayer().isPlaying()){
-            showNotification(R.drawable.pause_button);
-        }
-        updateViews(currentSong);
-    }
-
     /**
      * This method is for updating the seekebar of the player
      */
     public void updateSeekbar(){
         int currentPosition = musicPlayerController.getMusicPlayer().getCurrentPosition();
         seekBar.setProgress(currentPosition/1000);
+        String minutes = String.valueOf(((currentPosition/1000) % 3600) / 60);
+        if(Integer.parseInt(minutes) < 10){
+            minutes = "0" + minutes;
+        }
+
+        String seconds = String.valueOf((currentPosition/1000) % 60);
+        if(Integer.parseInt(seconds) < 10){
+            seconds = "0" + seconds;
+        }
+        seekbarStart.setText(minutes + ":" + seconds);
 
         runnable = new Runnable() {
             @Override
@@ -241,25 +220,40 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
 
         artistName.setText(song.getArtist().getName());
         songName.setText(song.getTitle());
+
+        if(adapter != null) {
+            int index = SongsList.getIndexOfSongInList(ModeSelectionActivity.upcomingSongs, currentSong.getTitle());
+            if(index == 0){
+                index = -1;
+            }
+            upcomingNext = ModeSelectionActivity.upcomingSongs.subList(index+1, ModeSelectionActivity.upcomingSongs.size()-1);
+            adapter.updateDataChanged(upcomingNext);
+        }
+    }
+
+    public static void shuffleQueue(List<Song> queueToShuffle) {
+        if (queueToShuffle != null) {
+            Collections.shuffle(queueToShuffle);
+        }
     }
 
     public void showNotification(int playPauseBtn) {
         Intent intent = new Intent(this, SongPlayerActivity.class);
         intent.putExtra("pos", songPosition);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_IMMUTABLE);
         Intent prevIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_PREV);
         PendingIntent prevPendingIntent = PendingIntent.getBroadcast(this, 0,
-                prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                prevIntent, PendingIntent.FLAG_MUTABLE);
         Intent playIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_PLAY);
         PendingIntent playPendingIntent = PendingIntent.getBroadcast(this, 0,
-                playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                playIntent, PendingIntent.FLAG_MUTABLE);
         Intent nextIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_NEXT);
         PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 0,
-                nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                nextIntent, PendingIntent.FLAG_MUTABLE);
         Bitmap picture = BitmapFactory.decodeResource(getResources(),
                 R.drawable.music_service_large_icon);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
@@ -281,19 +275,18 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         notificationManager.notify(0, notification);
     }
 
-
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
         musicService = binder.getService();
         musicService.setCallBack(musicPlayerController, SongPlayerActivity.this);
-        Log.d(CLASS_TAG, "MusicService connected!");
+        Log.d("Connected", musicService + "");
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         musicService = null;
-        Log.d(CLASS_TAG, "MusicService disconnected!");
+        Log.d("Disconnected", musicService + "");
     }
 
     @Override
@@ -308,5 +301,41 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
     protected void onPause() {
         super.onPause();
         unbindService(this);
+    }
+
+
+    public void pausePlay() {
+        if(!musicPlayerController.isPrepared()) return;
+        if(!musicPlayerController.isPaused()){
+            musicPlayerController.pausePlayer();
+            pausePlay.setImageResource(R.drawable.play_button);
+        }else if(musicPlayerController.isPaused()){
+            musicPlayerController.unPausePlayer();
+            pausePlay.setImageResource(R.drawable.pause_button);
+        }
+    }
+
+    public void next() {
+        if(!musicPlayerController.isPrepared()) return;
+        songPosition ++;
+        if(songPosition >= ModeSelectionActivity.upcomingSongs.size()){
+            songPosition = 0; //If it was last song it goes back around
+        }
+        currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
+        musicPlayerController.changeSong(currentSong);
+        pausePlay.setImageResource(R.drawable.pause_button);
+        updateViews(currentSong);
+    }
+
+    public void previous() {
+        if(!musicPlayerController.isPrepared()) return;
+        songPosition --;
+        if(songPosition < 0){
+            songPosition = 0; //If it was first song it plays it again and again
+        }
+        currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
+        musicPlayerController.changeSong(currentSong);
+        pausePlay.setImageResource(R.drawable.pause_button);
+        updateViews(currentSong);
     }
 }

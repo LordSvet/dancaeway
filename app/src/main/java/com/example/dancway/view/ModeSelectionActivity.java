@@ -77,6 +77,7 @@ public class ModeSelectionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent (ModeSelectionActivity.this, JoinPartyActivity.class);
                 startActivity(intent);
+
             }
         });
 

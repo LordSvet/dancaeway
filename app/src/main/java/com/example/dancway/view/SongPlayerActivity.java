@@ -44,7 +44,6 @@ import java.util.List;
 public class SongPlayerActivity extends AppCompatActivity implements ServiceConnection {
 
     public static final String CLASS_TAG = SongPlayerActivity.class.getName();
-
     MusicPlayerControllerSingleton musicPlayerController;
     ImageView profileButton;
     ImageView previousSong, pausePlay, nextSong;
@@ -234,19 +233,19 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         Intent intent = new Intent(this, SongPlayerActivity.class);
         intent.putExtra("pos", songPosition);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                intent, PendingIntent.FLAG_IMMUTABLE);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent prevIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_PREV);
         PendingIntent prevPendingIntent = PendingIntent.getBroadcast(this, 0,
-                prevIntent, PendingIntent.FLAG_MUTABLE);
+                prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent playIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_PLAY);
         PendingIntent playPendingIntent = PendingIntent.getBroadcast(this, 0,
-                playIntent, PendingIntent.FLAG_MUTABLE);
+                playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent nextIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_NEXT);
         PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 0,
-                nextIntent, PendingIntent.FLAG_MUTABLE);
+                nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap picture = BitmapFactory.decodeResource(getResources(),
                 R.drawable.music_service_large_icon);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
@@ -273,13 +272,13 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
         musicService = binder.getService();
         musicService.setCallBack(musicPlayerController, SongPlayerActivity.this);
-        Log.d("Connected", musicService + "");
+        Log.d(CLASS_TAG, "MusicService connected!");
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         musicService = null;
-        Log.d("Disconnected", musicService + "");
+        Log.d(CLASS_TAG, "MusicService disconnected!");
     }
 
     @Override
@@ -302,9 +301,11 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         if(!musicPlayerController.isPaused()){
             musicPlayerController.pausePlayer();
             pausePlay.setImageResource(R.drawable.play_button);
+            showNotification(R.drawable.play_button);
         }else if(musicPlayerController.isPaused()){
             musicPlayerController.unPausePlayer();
             pausePlay.setImageResource(R.drawable.pause_button);
+            showNotification(R.drawable.pause_button);
         }
     }
 
@@ -317,6 +318,11 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
         musicPlayerController.changeSong(currentSong);
         pausePlay.setImageResource(R.drawable.pause_button);
+        if(musicPlayerController.getMusicPlayer().isPlaying()){
+            showNotification(R.drawable.play_button);
+        }else if(!musicPlayerController.getMusicPlayer().isPlaying()){
+            showNotification(R.drawable.pause_button);
+        }
         updateViews(currentSong);
     }
 
@@ -329,6 +335,11 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
         musicPlayerController.changeSong(currentSong);
         pausePlay.setImageResource(R.drawable.pause_button);
+        if(musicPlayerController.getMusicPlayer().isPlaying()){
+            showNotification(R.drawable.play_button);
+        }else if(!musicPlayerController.getMusicPlayer().isPlaying()){
+            showNotification(R.drawable.pause_button);
+        }
         updateViews(currentSong);
     }
 }

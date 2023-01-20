@@ -7,15 +7,31 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dancway.R;
+import com.example.dancway.model.User;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
+
 
 /**
  * This is user profile activity
  */
 public class UserProfileActivity extends AppCompatActivity {
+
+    private User user;
+
     private static final int PICK_IMAGE = 1;
 
     @Override
@@ -54,6 +70,19 @@ public class UserProfileActivity extends AppCompatActivity {
 
         }
     }
+
+    public void buttonClicked (View view){
+        Log.i("Follow", "Following successfully done");
+        Button b = findViewById(R.id.my_follow);
+        b.setText("Following");
+        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(user.getUid());
+        documentReference.collection("Followers").add(user.getUid());
+
+    }
+
+
+
+
 
 }
 

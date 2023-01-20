@@ -26,6 +26,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -115,6 +116,8 @@ public class UserController {
                             Map<String, Object> user = new HashMap<>();
                             user.put("uName",username);
                             user.put("email", email);
+                            user.put("Followers", Arrays.asList());
+                            user.put("Following",Arrays.asList());
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {

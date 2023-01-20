@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    SongsListController.populateSongs();//TODO: MAKE PRETTIER AND REMOVE FROM MAIN ACTIVITY
+                    SongsListController.populateSongs();
                     sleep(2500);
                 }catch (Exception e) {
                     e.printStackTrace();

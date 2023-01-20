@@ -14,9 +14,12 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
+
+import com.example.dancway.model.PartyMode;
 import com.example.dancway.service.MusicService;
 import com.example.dancway.service.NotificationReceiver;
 import android.content.Intent;
@@ -24,6 +27,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -39,14 +43,16 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This is song player activity
+ * Activity which shows the music player. In Solo mode the user can listen to music as normal, they can vote however they like, they can switch to next song, loop and shuffle songs.
+ * In party mode only the master can listen to the music for guests it is only displayed and also for both groups the buttons are disabled and they can vote once every 4 minutes
  */
 public class SongPlayerActivity extends AppCompatActivity implements ServiceConnection {
 
     public static final String CLASS_TAG = SongPlayerActivity.class.getName();
+
     MusicPlayerControllerSingleton musicPlayerController;
     ImageView profileButton;
-    ImageView previousSong, pausePlay, nextSong;
+    ImageView previousSong, pausePlay, nextSong, shuffle, loop;
     TextView artistName, songName, seekbarEnd, seekbarStart;
     SeekBar seekBar;
     Handler handler = new Handler();
@@ -59,6 +65,8 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
 
     MusicService musicService;
     MediaSessionCompat mediaSession;
+    PartyMode partyMan = JoinPartyActivity.partyMode;
+    boolean isLoop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +84,132 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         nextSong = findViewById(R.id.nextSong);
         pausePlay = findViewById(R.id.pausePlay);
         comingNext = findViewById(R.id.coming_next_preview);
+        shuffle = findViewById(R.id.shuffleButton);
+        loop = findViewById(R.id.loopButton);
         musicPlayerController = MusicPlayerControllerSingleton.getInstance();
+        isLoop = false;
+
+        loop.setAlpha(.5f);
+
+        if (partyMan != null) {
+            if(partyMan.isMaster()) {
+                playSong();             //Plays the current song
+            }else setForPartyGuest();
+        }else {
+            setOnClickListeners();  //Sets on Click Listeners to all buttons and such
+            playSong();
+        }
+
+    }
+
+    /**
+     * Prepares music player to play current song
+     */
+    public void playSong(){
+        //Position of selected song from list is put in intent Extras under name "pos"
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            songPosition = extras.getInt("pos", 0);
+            currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
+
+
+            if (musicPlayerController.isPaused()) {       //Added this because if music player gets paused and then user clicks another song it doesnt play it automatically
+                musicPlayerController.unPausePlayer();
+            }
+            musicPlayerController.playSong(currentSong);
+            showNotification(R.drawable.pause_button);
+
+
+            musicPlayerController.getMusicPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    songPosition++;
+                    if (songPosition >= ModeSelectionActivity.upcomingSongs.size()) {
+                        songPosition = 0; //If it was last song it goes back around
+                    }
+                    currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
+                    musicPlayerController.changeSong(currentSong);
+                    updateViews(currentSong);
+                    updateSeekbar();
+
+                }
+            });
+
+        }else{
+            currentSong = MusicPlayerControllerSingleton.getInstance().getSong();
+        }
+        int currentSongIndex = SongsList.getIndexOfSongInList(ModeSelectionActivity.upcomingSongs, currentSong.getTitle());
+        if(ModeSelectionActivity.upcomingSongs.size() == 1){
+            currentSongIndex = -1;
+        }
+        upcomingNext = ModeSelectionActivity.upcomingSongs.subList(currentSongIndex+1, ModeSelectionActivity.upcomingSongs.size());
+        if(partyMan!=null) {
+            partyMan.setListToPass(upcomingNext);
+        }
+        adapter = new SongsQueueAdapter(upcomingNext,this);
+        comingNext.setAdapter(adapter);
+        updateViews(currentSong);
+        updateSeekbar();
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int position, boolean fromUser) {
+                if(fromUser){       //Check is user clicked this or if it was done in the Handler
+                    if(!musicPlayerController.isPrepared()) return;
+                    musicPlayerController.seekTo(position*1000);    //No idea why it has to be multiplied by a thousand but its the only way it works
+                    seekBar.setProgress(position);
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { //We don't really need to do this but it has to be here
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {  //We don't really need to do this but it has to be here
+            }
+        });
+    }
+
+    /**
+     * Sets up the views for the Party Guest mode
+     */
+    public void setForPartyGuest(){
+
+        currentSong = ModeSelectionActivity.upcomingSongs.get(0);
+        int currentSongIndex = SongsList.getIndexOfSongInList(ModeSelectionActivity.upcomingSongs, currentSong.getTitle());
+        if(ModeSelectionActivity.upcomingSongs.size() == 1){
+            currentSongIndex = -1;
+        }
+        upcomingNext = ModeSelectionActivity.upcomingSongs.subList(currentSongIndex+1, ModeSelectionActivity.upcomingSongs.size());
+        if(partyMan!=null) {
+            partyMan.setListToPass(upcomingNext);
+        }
+        adapter = new SongsQueueAdapter(upcomingNext,this);
+        comingNext.setAdapter(adapter);
+        updateViews(currentSong);
+    }
+
+    /**
+     * Sets the onClick listeners to all views that need them
+     */
+    public void setOnClickListeners(){
+        loop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicPlayerController.setLoop(!isLoop);
+                isLoop = !isLoop;
+                if(isLoop) loop.setAlpha(1f);
+                else loop.setAlpha(.5f);
+            }
+        });
+
+        shuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shuffleQueue(upcomingNext);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
 
         profileButton = (ImageView) findViewById(R.id.profileButton);
@@ -85,7 +218,7 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
             public void onClick(View view) {
                 Intent intent = new Intent(SongPlayerActivity.this, UserProfileActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);            }
+            }
         });
 
 
@@ -109,68 +242,6 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
                 pausePlay();
             }
         });
-
-        //Position of selected song from list is put in intent Extras under name "pos"
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            songPosition = extras.getInt("pos", 0);
-            currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
-
-            updateViews(currentSong);
-
-            if (musicPlayerController.isPaused()) {       //Added this because if music player gets paused and then user clicks another song it doesnt play it automatically
-                musicPlayerController.unPausePlayer();
-            }
-            musicPlayerController.playSong(currentSong);
-            showNotification(R.drawable.pause_button);
-            updateSeekbar();
-
-            musicPlayerController.getMusicPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    songPosition++;
-                    if (songPosition >= ModeSelectionActivity.upcomingSongs.size()) {
-                        songPosition = 0; //If it was last song it goes back around
-                    }
-                    currentSong = ModeSelectionActivity.upcomingSongs.get(songPosition);
-                    musicPlayerController.changeSong(currentSong);
-                    updateViews(currentSong);
-                    updateSeekbar();
-
-                }
-            });
-
-        }
-        int currentSongIndex = SongsList.getIndexOfSongInList(ModeSelectionActivity.upcomingSongs, currentSong.getTitle());
-        if(ModeSelectionActivity.upcomingSongs.size() == 1){
-            currentSongIndex = -1;
-        }
-        upcomingNext = ModeSelectionActivity.upcomingSongs.subList(currentSongIndex+1, ModeSelectionActivity.upcomingSongs.size()-1);
-        adapter = new SongsQueueAdapter(upcomingNext,this);
-        comingNext.setAdapter(adapter);
-
-
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int position, boolean fromUser) {
-                if(fromUser){       //Check is user clicked this or if it was done in the Handler
-                    if(!musicPlayerController.isPrepared()) return;
-                    musicPlayerController.seekTo(position*1000);    //No idea why it has to be multiplied by a thousand but its the only way it works
-                    seekBar.setProgress(position);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { //We don't really need to do this but it has to be here
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {  //We don't really need to do this but it has to be here
-
-            }
-        });
-
     }
 
     /**
@@ -199,6 +270,10 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         handler.postDelayed(runnable,1000);
     }
 
+    /**
+     * Updates the UI according to the song passed
+     * @param song Song that is passed
+     */
     public void updateViews(Song song){
         seekBar.setProgress(0);
         seekBar.setMax((int) song.getDuration());
@@ -215,20 +290,31 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
 
         if(adapter != null) {
             int index = SongsList.getIndexOfSongInList(ModeSelectionActivity.upcomingSongs, currentSong.getTitle());
-            if(index == 0){
+            if(ModeSelectionActivity.upcomingSongs.size() == 1){
                 index = -1;
             }
-            upcomingNext = ModeSelectionActivity.upcomingSongs.subList(index+1, ModeSelectionActivity.upcomingSongs.size()-1);
+            upcomingNext = ModeSelectionActivity.upcomingSongs.subList(index+1, ModeSelectionActivity.upcomingSongs.size());
+
+            if(partyMan!=null) {
+                partyMan.setListToPass(upcomingNext);
+            }
+
             adapter.updateDataChanged(upcomingNext);
         }
     }
 
+    /**
+     * Shuffles the queue
+     */
     public static void shuffleQueue(List<Song> queueToShuffle) {
         if (queueToShuffle != null) {
             Collections.shuffle(queueToShuffle);
         }
     }
 
+    /**
+     * Shows the player in the quick settings
+     */
     public void showNotification(int playPauseBtn) {
         Intent intent = new Intent(this, SongPlayerActivity.class);
         intent.putExtra("pos", songPosition);
@@ -287,6 +373,7 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         //--- Bind Music Service ---
         Intent intent = new Intent(this, MusicService.class);
         bindService(intent, this, BIND_AUTO_CREATE);
+        //Update views on opening
     }
 
     @Override
@@ -295,7 +382,9 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         unbindService(this);
     }
 
-
+    /**
+     * Pauses if player is playing and plays if it is paused
+     */
     public void pausePlay() {
         if(!musicPlayerController.isPrepared()) return;
         if(!musicPlayerController.isPaused()){
@@ -309,6 +398,9 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         }
     }
 
+    /**
+     * Switches to next song
+     */
     public void next() {
         if(!musicPlayerController.isPrepared()) return;
         songPosition ++;
@@ -326,6 +418,9 @@ public class SongPlayerActivity extends AppCompatActivity implements ServiceConn
         updateViews(currentSong);
     }
 
+    /**
+     * Switches to previous song
+     */
     public void previous() {
         if(!musicPlayerController.isPrepared()) return;
         songPosition --;

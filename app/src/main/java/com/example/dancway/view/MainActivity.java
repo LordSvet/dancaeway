@@ -8,17 +8,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.example.dancway.R;
 import com.example.dancway.controller.MusicPlayerControllerSingleton;
 import com.example.dancway.controller.RecyclerViewInterface;
 import com.example.dancway.controller.SongsListAdapter;
 import com.example.dancway.controller.SongsListController;
+import com.example.dancway.model.PartyMode;
 import com.example.dancway.model.Song;
 
 /**
@@ -48,7 +51,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         super.onContextItemSelected(item);
+        if(ModeSelectionActivity.upcomingSongs.size()==0){
+            Toast.makeText(this, "Cannot add song to empty list", Toast.LENGTH_LONG).show();
+            return true;
+        }
         ModeSelectionActivity.upcomingSongs.add(SongsListController.getSongsList().getSongAt(item.getGroupId()));
+
         return true;
     }
 
@@ -68,13 +76,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         if(ModeSelectionActivity.upcomingSongs.isEmpty()) {
             for (int i = position; i < SongsListController.getSongsList().getSize(); i++) {
                 ModeSelectionActivity.upcomingSongs.add(SongsListController.getSongsList().getSongAt(i));
+
             }
             songPlayerIntent.putExtra("pos",0);
         }else {
             Song currentSong = musicPlayerController.getSong();
+            if(currentSong == null){
+                currentSong = chosenSong;
+            }
             for(int i = 0; i < ModeSelectionActivity.upcomingSongs.size();i++){
                 if(currentSong.getTitle().equals(ModeSelectionActivity.upcomingSongs.get(i).getTitle())){
                     ModeSelectionActivity.upcomingSongs.add(i+1, chosenSong);
+
                     songPlayerIntent.putExtra("pos", i+1);
                     break;
                 }

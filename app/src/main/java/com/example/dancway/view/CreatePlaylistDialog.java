@@ -25,7 +25,13 @@ public class CreatePlaylistDialog extends AppCompatDialogFragment {
     EditText editText;
     Button button;
 
-
+    /**
+     * Creates dialog fragment that will be a prompt when user creating playlist
+     * @param savedInstanceState The last saved instance state of the Fragment,
+     * or null if this is a freshly created Fragment.
+     *
+     * @return Returns the dialog that will be shown
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

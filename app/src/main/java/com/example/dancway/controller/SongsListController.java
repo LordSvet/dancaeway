@@ -77,6 +77,11 @@ public class SongsListController {
         });
     }
 
+    /**
+     * Gets index of song in the original list of songs from the title
+     * @param songTitle title of Song
+     * @return returns index of the song in the original full song list
+     */
     public static int getIndexOfSong(String songTitle) {
         ArrayList<Song> list = getSongsList().getArrayList();
         for (int i = 0; i < list.size(); i++) {

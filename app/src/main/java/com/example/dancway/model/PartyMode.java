@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +14,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.example.dancway.controller.SongsListController;
+import com.example.dancway.view.JoinPartyActivity;
 import com.example.dancway.view.ModeSelectionActivity;
+import com.example.dancway.view.SongPlayerActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +35,7 @@ public class PartyMode{    // Will implement online session later in next increm
     SongsListController songsListController;
 
 
+
     //generic constructor
     public PartyMode(String codeGenerator, ArrayList<User> connectedUsers, ArrayList<Song> songList, SongQueue songQueue){
         this.codeGenerator = codeGenerator;
@@ -40,20 +45,18 @@ public class PartyMode{    // Will implement online session later in next increm
     }
 
 
+    /**
+     *
+     * @return Returns the code that represents the session
+     */
     public String getCodeGenerator() {
         return codeGenerator;
     }
 
-    public void setCodeGenerator(String codeGenerator) {
-        this.codeGenerator = codeGenerator;
-    }
-
-    public ArrayList<User> getConnectedUsers(){
-        return connectedUsers;
-    }
-
-    public SongQueue getSongQueue(){return songQueue;}
-
+    /**
+     *
+     * @return Returns the songList
+     */
     public ArrayList<Song> getSongList(){return songList;}
 
     public void addUser(User user) {
@@ -70,16 +73,28 @@ public class PartyMode{    // Will implement online session later in next increm
 
     //Methods to be used in child classes
 
-    public void updateFromDatabase(DatabaseReference databaseReference) {
+    /**
+     * Method calls the methods takeNewInfo and updateSongListInDB every 10 seconds
+     * @param databaseReference Reference towards the branch in the real time database
+     * @param list list that will be update to and from database
+     */
+    public void updateFromDatabase(DatabaseReference databaseReference, ArrayList<Song> list) {
         Thread updateFromDB = new Thread(new Runnable() {
             @Override
             public void run() {
-                takeNewInfo(databaseReference);
-                try{
-                    Thread.sleep(5000);
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                    Log.i("Error: ", e.getMessage());
+                takeNewInfo(databaseReference); //Have to read first once upon connecting
+                while(true){
+
+                    takeNewInfo(databaseReference);
+                    updateSongListInDB(list);
+                    list.clear();   //TODO: TEST WITH TWO PHONES
+                    list.addAll(songList);
+                    try{
+                        Thread.sleep(10000);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                        Log.i("Error: ", e.getMessage());
+                    }
                 }
             }
         });
@@ -87,12 +102,17 @@ public class PartyMode{    // Will implement online session later in next increm
     }
 
 
+    /**
+     * Vote for a song
+     * @param vote true means upVote, false means downVote
+     * @param songTitle Song Title of song to vote for
+     */
     public void voteForSong(boolean vote, String songTitle) {   //vote == true to upvote, false to downvote
         if(vote){
             songQueue.voteUpForSong(songTitle);
         }else{
             songQueue.voteDownForSong(songTitle);
-        }   //TODO: Then update RTDB
+        }
     }
 
 
@@ -126,30 +146,17 @@ public class PartyMode{    // Will implement online session later in next increm
         databaseReference.child("SongsList").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
+                songList.clear();
                 for(DataSnapshot it : dataSnapshot.getChildren()){
-                    // This list won't really be changed during PartyMode its just the queue
-                    //TODO: Change to the static mainQueue
-                    Song temp = new Song(it.getKey(), (String) it.getValue());
+                    String index = String.valueOf(it.getValue());
+                    index = index.replace("{","");
+                    index = index.replace("}","");
+                    String[] values = index.split("=");
+                    Song temp =SongsListController.getSongsList().getSongAt(Integer.parseInt(values[0]));
+                    temp.setNrOfLikes(Integer.parseInt(values[1]));
                     songList.add(temp);
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("Error: ",e.getMessage());
-            }
-        });
-
-        //3. Update songs queue
-        databaseReference.child("SongsQueue").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
-                for(DataSnapshot it : dataSnapshot.getChildren()) {
-                    if (songQueue.exists(it.getKey())) {
-                        Song temp = SongsListController.getSongsList().getSongAt((Integer) it.getValue());  //get exact song by index
-                        songQueue.addSong(temp);
-                    }
-                }
+                setListToPass(songList);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -167,9 +174,36 @@ public class PartyMode{    // Will implement online session later in next increm
         reference.setValue("");
     }
 
-    public void addSongToUpcomingQueue(Song song){
-        song.setNrOfLikes(0);
-        songQueue.addSong(song);
+    /**
+     * Sets the songs list in the database to the most current one from the user's end
+     * @param song List of songs to put in the database
+     */
+    public void updateSongListInDB(ArrayList<Song> song){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Session").child(codeGenerator).child("SongsList");
+
+        SongQueue.sortListByVotes(song);
+
+        databaseReference.setValue("");
+        for(int i = 0; i< song.size();i++){    //Loads all songs from storage onto the realtime database
+            databaseReference.child(String.valueOf(i)).child(String.valueOf(SongsListController.getIndexOfSong(song.get(i).getTitle()))).setValue(String.valueOf(song.get(i).getNrOfLikes()));//TODO: SET TWO VALUES NOT ONNNNEEEEE
+        }
+//        setListToPass(song);
     }
+
+
+    public void setListToPass(List<Song> list){}
+
+    /**
+     *
+     * @return Returns true if partyMode is active
+     */
+    public boolean isParty(){return true;}
+
+    /**
+     *
+     * @return Returns true if current user is the master of the party
+     */
+    public boolean isMaster(){return false;}
+
 
 }

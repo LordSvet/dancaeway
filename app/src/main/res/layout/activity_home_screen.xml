@@ -6,29 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".view.HomeScreenActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:showDividers="middle"
         android:divider="@drawable/home_screen_divider"
         android:background="@color/background_purple"
+
         >
 
         <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
             android:id="@+id/greetingsTextView"
-            android:text="       Hello, "
+            android:layout_width="318dp"
+            android:layout_height="62dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/futura_pt_book"
-            android:textSize="22sp"
             android:gravity="center_vertical"
+            android:text="       Hello, "
             android:textColor="@color/white"
-            />
+            android:textSize="22sp" />
 
 
         <TextView
+            android:layout_below="@id/greetingsTextView"
             android:id="@+id/partyModeTextView"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -41,11 +42,12 @@
             />
 
         <androidx.cardview.widget.CardView
+            android:layout_below="@id/partyModeTextView"
             android:layout_marginTop="20dp"
             android:id="@+id/profileCard"
             android:layout_width="300dp"
             android:layout_height="157dp"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="5dp"
             app:cardElevation="8dp"
@@ -62,10 +64,11 @@
 
 
         <androidx.cardview.widget.CardView
+            android:layout_below="@id/profileCard"
             android:id="@+id/songsListCard"
             android:layout_width="300dp"
             android:layout_height="175dp"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="5dp"
             app:cardElevation="8dp"
@@ -82,10 +85,11 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:layout_below="@id/songsListCard"
             android:id="@+id/playlistsCard"
             android:layout_width="300dp"
             android:layout_height="157dp"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="5dp"
             app:cardElevation="8dp"
@@ -102,10 +106,12 @@
 
 
         <androidx.cardview.widget.CardView
+            android:layout_below="@id/playlistsCard"
+
             android:id="@+id/settingsCard"
             android:layout_width="300dp"
             android:layout_height="157dp"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="5dp"
             app:cardElevation="8dp"
@@ -120,7 +126,15 @@
                 />
         </androidx.cardview.widget.CardView>
 
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/openPlayerButton"
+            android:background="@drawable/logo_icon"  />
+    </RelativeLayout>
 
-    </LinearLayout>
 
 </ScrollView>

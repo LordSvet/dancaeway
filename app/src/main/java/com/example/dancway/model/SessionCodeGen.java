@@ -20,7 +20,7 @@ public class SessionCodeGen {
      * Generates a random 5-character code with 3 numbers and 2 letters
      * @return  returns the generated code
      */
-    private static String codeGenerator(){     // TODO: When sessions are implemented check if code already exists in RT DB
+    private static String codeGenerator(){
         String code = "";
         Random r = new Random();
         code += String.valueOf(r.nextInt(10));

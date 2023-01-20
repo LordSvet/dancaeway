@@ -103,12 +103,25 @@ public class MusicPlayerControllerSingleton {
      * It shows the current time of playing and user can change the playing position with dragging
      * @param progress
      */
+
+    /**
+     * Method that will be called when the seekbar is moved by the user so that song can skip to that part
+     * @param progress point of song in milliseconds that will be reached
+     */
     public void seekTo(int progress){
         musicPlayer.changePosition(progress);
     }
 
+    /**
+     * Check if player is currently paused
+     * @return true if paused, false if not
+     */
     public boolean isPaused(){return musicPlayer.isPaused();}
 
+    /**
+     * Check if player is prepared. Mainly to run away from IllegalStateExceptions. Very dangerous.
+     * @return returns true if player is prepared, false if not
+     */
     public boolean isPrepared(){return musicPlayer.isPrepared();}
 
 

@@ -191,12 +191,24 @@ public class MusicPlayer {
         }
     }
 
+    /**
+     * Sets the music player's isPaused boolean to pause
+     * @param pause boolean to set the isPaused variable to
+     */
     public void setPaused(boolean pause){
         isPaused = pause;
     }
 
+    /**
+     *
+     * @return Returns true if music player is paused
+     */
     public boolean isPaused(){return isPaused;}
 
+    /**
+     *
+     * @return Returns true is music player is prepared to play a song
+     */
     public boolean isPrepared() {
         return isPrepared;
     }

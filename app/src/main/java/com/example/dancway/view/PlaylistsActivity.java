@@ -16,10 +16,21 @@ import android.widget.ListView;
 import com.example.dancway.R;
 import com.example.dancway.model.Playlists;
 
-
+/**
+ * Activity that shows a list of all playlists and user has the option to add or delete playlists
+ */
 public class PlaylistsActivity extends AppCompatActivity {
     Button buttonCreateList;
     ArrayAdapter<String> adapter;
+
+
+
+    @Override
+    protected void onPause() {
+
+
+        super.onPause();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,9 @@ public class PlaylistsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Opens menu with option to delete the playlist
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -59,19 +73,24 @@ public class PlaylistsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.playlist_options_menu, menu);
     }
 
+    /**
+     * Deletes the playlist that user selected to remove
+     */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
-        switch(item.getItemId()){
-            case R.id.delete_playlist_menu_item:
-                Playlists.getInstance().removePlaylist(index);
-                adapter.notifyDataSetChanged();
-                return true;
+        if (item.getItemId() == R.id.delete_playlist_menu_item) {
+            Playlists.getInstance().removePlaylist(index);
+            adapter.notifyDataSetChanged();
+            return true;
         }
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * Loads dialog to create playlist when user clicks the add playlist button
+     */
     public void showPopup() {
         CreatePlaylistDialog dialog = new CreatePlaylistDialog();
         dialog.show(getSupportFragmentManager(),"Create Playlist");

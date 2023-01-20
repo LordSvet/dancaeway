@@ -37,11 +37,14 @@ public class Song {
         this.imageURL = imageURL;
     }
 
+    /**
+     * Setter for the bitmap for the pic of the song
+     * @param url Online link for the new song
+     */
     public void setBitmap(String url){
         bitmap = getImageFromURL(url);
     }
 
-    //TODO: Maybe we won't need this constructor afterall We must discuss
     public Song(String title, String url){
         this.title = title;
         this.url = url;
@@ -126,10 +129,21 @@ public class Song {
         this.nrOfLikes = nrOfLikes;
     }
 
+    /**
+     * Method to increment the likes
+     */
     public void incrementLikes(){this.nrOfLikes++;}
 
+    /**
+     * Method to decrement the likes
+     */
     public void decrementLikes(){this.nrOfLikes--;}
 
+    /**
+     * Gets the image of the Song from the Internet and returns it as a bitmap
+     * @param url Link to the image online
+     * @return  returns the bitmap which will be set in the image view
+     */
     public static Bitmap getImageFromURL(String url){
         try {
             URL link = new URL(url);
@@ -145,6 +159,10 @@ public class Song {
         }
     }
 
+    /**
+     *
+     * @return Returns bitmap of song
+     */
     public Bitmap getBitmap(){return bitmap;}
 
 }

@@ -20,6 +20,9 @@ import com.example.dancway.controller.SongsListController;
 import com.example.dancway.model.Playlists;
 import com.example.dancway.model.SinglePlaylist;
 
+/**
+ * Activity which offers a list of all songs. User can select multiple songs that they want added to the playlist
+ */
 public class SelectSongsActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> adapter;

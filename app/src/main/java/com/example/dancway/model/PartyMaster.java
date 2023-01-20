@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class PartyMaster extends PartyMode{
@@ -21,6 +22,7 @@ public class PartyMaster extends PartyMode{
     private ArrayList<User> connectedUsers;
     private ArrayList<Song> songList;
     private SongQueue songQueue;
+    ArrayList<Song> listToPass;
     private SongsListController songsListController;
 
 
@@ -30,49 +32,58 @@ public class PartyMaster extends PartyMode{
         user = User.getCurrentUser();
         connectedUsers.add(user);
         songsListController = new SongsListController();
+        listToPass = new ArrayList<>(ModeSelectionActivity.upcomingSongs);
         createPartySession();
     }
 
     //Methods to be used in child classes
 
+    public void setListToPass(List<Song> list){
+        listToPass.clear();
+        listToPass.addAll(list);
+    }
 
+    /**
+     * Calls updateFromDatabase with the correct parameters
+     */
     public void createPartySession() {
 
         // make a ref to db and make a ref to the root which has a child named Session
         DatabaseReference databaseRoot = FirebaseDatabase.getInstance().getReference().child("Session");
 
-        Map<String, Map<String, String>> sessionBranch = new HashMap<>();
-
         //1. Add user
-        Map<String, String> userList = new HashMap<>();
-        userList.put(user.getUid(), user.getUsername());
-
-        sessionBranch.put("UserList",userList);
-
-        if(ModeSelectionActivity.upcomingSongs.isEmpty()){  //If the queue is empty it just adds full song list to it
-            ModeSelectionActivity.upcomingSongs = new ArrayList<>(SongsListController.getSongsList().getArrayList());
-        }
+        databaseRoot.child(seshCode).child("UserList").child(user.getUid()).setValue(user.getUsername());
 
         //Shuffles list before adding it
         SongPlayerActivity.shuffleQueue(ModeSelectionActivity.upcomingSongs);
-        //2. Adds songs list
-        Map<String, String> songs = new HashMap<>();    //Key is title of song and value is the original index in the RTDB of that song
+        databaseRoot.child(seshCode).child("SongsList").setValue("");
+        for (int i = 0; i < ModeSelectionActivity.upcomingSongs.size(); i++) {    //Loads all songs from storage onto the realtime database
+            databaseRoot.child(seshCode).child("SongsList").child(String.valueOf(i)).setValue(String.valueOf(SongsListController.getIndexOfSong(ModeSelectionActivity.upcomingSongs.get(i).getTitle())));
+        }//SONGS HAVE TO BE SAVED UNDER NUMBER IN QUEUE and as a value it has a child which contains the index in the OG list and that child has a value which is the likes
 
-        for(int i = 0; i< ModeSelectionActivity.upcomingSongs.size();i++){    //Loads all songs from storage onto the realtime database
-            songs.put(ModeSelectionActivity.upcomingSongs.get(i).getTitle(), String.valueOf(SongsListController.getIndexOfSong(ModeSelectionActivity.upcomingSongs.get(i).getTitle())));
-        }
-        sessionBranch.put("SongsList",songs);
 
-        databaseRoot.child(seshCode).setValue(sessionBranch);
-
-        updateFromDatabase(databaseRoot.child(seshCode));
+        updateFromDatabase(databaseRoot.child(seshCode), listToPass);
     }
 
-    public void updateFromDatabase(DatabaseReference databaseRoot) {
-        super.updateFromDatabase(databaseRoot);
+    /**
+     * Calls super class's updateFromDatabase
+     * @param databaseRoot Reference towards the branch in the real time database
+     * @param list list that will be update to and from database
+     */
+    public void updateFromDatabase(DatabaseReference databaseRoot, ArrayList<Song> list) {
+        super.updateFromDatabase(databaseRoot, list);
     }
 
     public void voteForSong(boolean vote, Song songToVoteFor) { //if vote == true -> vote += 1 else -1
         super.voteForSong(vote, songToVoteFor.getTitle());
     }
+
+    public void updateSongListInDB(ArrayList<Song> list){
+        super.updateSongListInDB(list);
+    }
+
+    public boolean isMaster(){return true;}
+
+
+
 }

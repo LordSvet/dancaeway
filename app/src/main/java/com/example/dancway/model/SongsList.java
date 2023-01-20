@@ -87,6 +87,12 @@ public class SongsList {
         return namesList;
     }
 
+    /**
+     * Uses the title of a song to find the index in the passed list of songs
+     * @param songs List of Songs to search in
+     * @param title Title of song it is searching for
+     * @return Returns the index where the song is
+     */
     public static int getIndexOfSongInList(List<Song> songs, String title){
         int i = 0;
         for(Song song: songs){

@@ -29,7 +29,7 @@ public class JoinPartyActivity extends AppCompatActivity {
     Button joinSesh;
     TextView title;
     EditText inputBar;
-    PartyMode partyMode;
+    public static PartyMode partyMode;
 
 
     @Override
@@ -48,7 +48,7 @@ public class JoinPartyActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                currentUser.setPartyRole(PartyRole.MASTER); REMOVE
                 String seshCode = SessionCodeGen.getCode();
-                partyMode = new PartyMaster(seshCode,new ArrayList<>(),new ArrayList<>(), new SongQueue(50));   //TODO: TEST
+                partyMode = new PartyMaster(seshCode,new ArrayList<>(),new ArrayList<>(), new SongQueue(50));
                 Intent intent = new Intent(JoinPartyActivity.this, HomeScreenActivity.class);
                 intent.putExtra("SeshCode",partyMode.getCodeGenerator());
                 intent.putExtra("PartyModeEnabled",true);
@@ -66,7 +66,7 @@ public class JoinPartyActivity extends AppCompatActivity {
                 if(inputBar.getText().toString().length() != 5){
                     Toast.makeText(JoinPartyActivity.this, "Invalid Code Entered", Toast.LENGTH_SHORT).show();
                 }else{
-                    partyMode = new PartyGuest(inputBar.getText().toString().toUpperCase(),new ArrayList<>(),new ArrayList<>(), new SongQueue(50)); //TODO: TEST
+                    partyMode = new PartyGuest(inputBar.getText().toString().toUpperCase(),new ArrayList<>(),new ArrayList<>(), new SongQueue(50));
                     Intent intent = new Intent(JoinPartyActivity.this, HomeScreenActivity.class);
                     intent.putExtra("SeshCode", inputBar.getText().toString().toUpperCase());
                     intent.putExtra("PartyModeEnabled",true);
